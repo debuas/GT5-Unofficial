@@ -6,6 +6,7 @@ import static gregtech.api.multitileentity.enums.GT_MultiTileComponentCasing.*;
 import static gregtech.api.multitileentity.enums.GT_MultiTileUpgradeCasing.*;
 import static gregtech.api.multitileentity.enums.GT_MultiTileUpgradeCasing.Insulator_OmegaType;
 
+import gregtech.api.multitileentity.storage.MetalChest;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 
@@ -43,9 +44,15 @@ public class GT_Loader_MultiTileEntities implements Runnable {
     public static final String UPGRADE_CASING_REGISTRY_NAME = "gt.multitileentity.upgrade.casings";
     public static final String CASING_REGISTRY_NAME = "gt.multitileentity.casings";
     public static final String MACHINE_REGISTRY_NAME = "gt.multitileentity.controllers";
+    public static final String STORAGE_REGISTRY_NAME = "gt.multitileentity.storage";
     public static final MultiTileEntityRegistry MACHINE_REGISTRY = new MultiTileEntityRegistry(MACHINE_REGISTRY_NAME);
+    public static final MultiTileEntityRegistry STORAGE_REGISTRY = new MultiTileEntityRegistry(STORAGE_REGISTRY_NAME);
     public static final MultiTileEntityBlock MACHINE_BLOCK = MultiTileEntityBlock
         .getOrCreate("GregTech", "machine", Material.iron, Block.soundTypeMetal, "wrench", 0, 0, 15, true, true);
+    public static final MultiTileEntityBlock STORAGE_BLOCK = MultiTileEntityBlock
+        .getOrCreate("GregTech", "machine", Material.iron, Block.soundTypeMetal, "pickaxe", 0, 0, 15, true, true);
+
+
     public static final MultiTileEntityRegistry CASING_REGISTRY = new MultiTileEntityRegistry(CASING_REGISTRY_NAME);
     public static final MultiTileEntityBlock CASING_BLOCK = MultiTileEntityBlock
         .getOrCreate("GregTech", "casing", Material.iron, Block.soundTypeMetal, "wrench", 0, 0, 15, true, true);
@@ -217,6 +224,7 @@ public class GT_Loader_MultiTileEntities implements Runnable {
         registerEmitterCasings();
         registerSensorCasings();
         registerFieldGeneratorCasings();
+        registerStorage();
 
         UPGRADE_CASING_REGISTRY.create(ULV_Inventory.getId(), Inventory.class)
             .name("Inventory Upgrade ULV")
@@ -1444,4 +1452,45 @@ public class GT_Loader_MultiTileEntities implements Runnable {
             .textureFolder("fieldGenerator")
             .register();
     }
+
+    //Storage registration for testing purposes
+    //may change later
+    private static void registerStorage(){
+        STORAGE_REGISTRY.create(1, MetalChest.class)
+            .name("Iron Chest")
+            .setBlock(STORAGE_BLOCK)
+            .material(Materials.Iron)
+            .textureFolder("MetalChest")
+            .register();
+        STORAGE_REGISTRY.create(2, MetalChest.class)
+            .name("Gold Chest")
+            .setBlock(STORAGE_BLOCK)
+            .material(Materials.Gold)
+            .textureFolder("MetalChest")
+            .setNBT("gt.inventory.storage.size",54)
+            .register();
+        STORAGE_REGISTRY.create(3, MetalChest.class)
+            .name("Platinum Chest")
+            .setBlock(STORAGE_BLOCK)
+            .material(Materials.Platinum)
+            .textureFolder("MetalChest")
+            .setNBT("gt.inventory.storage.size",69)
+            .register();
+        STORAGE_REGISTRY.create(4, MetalChest.class)
+            .name("Lead Chest")
+            .setBlock(STORAGE_BLOCK)
+            .material(Materials.Lead)
+            .textureFolder("MetalChest")
+            .setNBT("gt.inventory.storage.size",9)
+            .register();
+        STORAGE_REGISTRY.create(5, MetalChest.class)
+            .name("Red Granite Chest")
+            .setBlock(STORAGE_BLOCK)
+            .material(Materials.GraniteRed)
+            .textureFolder("MetalChest")
+            .setNBT("gt.inventory.storage.size",1)
+            .register();
+    }
+
+
 }

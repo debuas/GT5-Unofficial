@@ -14,6 +14,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.function.Predicate;
 
+import bde.loaders.recipes.BDE_CraftingRecipeLoader;
+import bde.loaders.recipes.BDE_MachineRecipeLoader;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -418,7 +420,8 @@ public class GT_Mod implements IGT_Mod {
         new GT_CropLoader().run();
         new GT_Worldgenloader().run();
         new GT_CoverLoader().run();
-
+        new BDE_CraftingRecipeLoader().run();
+        new BDE_MachineRecipeLoader().run();
         GT_RecipeRegistrator.registerUsagesForMaterials(
             null,
             false,

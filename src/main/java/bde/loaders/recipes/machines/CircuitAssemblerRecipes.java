@@ -189,7 +189,7 @@ public class CircuitAssemblerRecipes extends gregtech.loaders.postload.recipes.C
             .itemOutputs(ItemList.Circuit_Processor.get(1))
             .fluidInputs(tMat.getMolten(144L * tMultiplier / 2))
             .duration(2 * SECONDS + 10 * TICKS)
-            .eut((int) 2400)
+            .eut((int) 2_400)
             .requiresCleanRoom()
             .addTo(circuitAssemblerRecipes);
         //HV T1
@@ -258,7 +258,7 @@ public class CircuitAssemblerRecipes extends gregtech.loaders.postload.recipes.C
         //HV T3
         GT_Values.RA.stdBuilder()
             .itemInputs(
-                ItemList.Circuit_Board_Plastic_Advanced.get(1),
+                ItemList.Circuit_Board_Epoxy_Advanced.get(1),
                 ItemList.Circuit_Chip_NanoCPU.get(1),
                 ItemList.Circuit_Parts_ResistorSMD.get(8),
                 ItemList.Circuit_Parts_CapacitorSMD.get(8),
@@ -274,7 +274,7 @@ public class CircuitAssemblerRecipes extends gregtech.loaders.postload.recipes.C
         //HV T3 Advanced
         GT_Values.RA.stdBuilder()
             .itemInputs(
-                ItemList.Circuit_Board_Plastic_Advanced.get(1),
+                ItemList.Circuit_Board_Epoxy_Advanced.get(1),
                 ItemList.Circuit_Chip_NanoCPU.get(1),
                 ItemList.Circuit_Parts_ResistorASMD.get(2),
                 ItemList.Circuit_Parts_CapacitorASMD.get(2),
@@ -287,9 +287,198 @@ public class CircuitAssemblerRecipes extends gregtech.loaders.postload.recipes.C
             .eut((int) 600)
             .requiresCleanRoom()
             .addTo(circuitAssemblerRecipes);
-
-
-
+        //EV T1
+        GT_Values.RA.stdBuilder()
+            .itemInputs(
+                ItemList.Circuit_Board_Plastic_Advanced.get(1),
+                ItemList.Circuit_Advanced.get(2),
+                ItemList.Circuit_Parts_Diode.get(4),
+                ItemList.Circuit_Chip_Ram.get(8),
+                GT_OreDictUnificator.get(OrePrefixes.wireFine,Materials.Electrum,16),
+                GT_OreDictUnificator.get(OrePrefixes.bolt,Materials.BlueAlloy,16)
+            )
+            .itemOutputs(ItemList.Circuit_Data.get(1))
+            .fluidInputs(tMat.getMolten(288L * tMultiplier / 2))
+            .duration(20 * SECONDS)
+            .eut((int) 120)
+            .requiresCleanRoom()
+            .addTo(circuitAssemblerRecipes);
+        //EV T1 Advanced
+        GT_Values.RA.stdBuilder()
+            .itemInputs(
+                ItemList.Circuit_Board_Plastic_Advanced.get(1),
+                ItemList.Circuit_Advanced.get(2),
+                ItemList.Circuit_Parts_DiodeASMD.get(1),
+                ItemList.Circuit_Chip_Ram.get(8),
+                GT_OreDictUnificator.get(OrePrefixes.wireFine,Materials.Electrum,16),
+                GT_OreDictUnificator.get(OrePrefixes.bolt,Materials.BlueAlloy,16)
+            )
+            .itemOutputs(ItemList.Circuit_Data.get(1))
+            .fluidInputs(tMat.getMolten(288L * tMultiplier / 2))
+            .duration(10 * SECONDS)
+            .eut((int) 120)
+            .requiresCleanRoom()
+            .addTo(circuitAssemblerRecipes);
+        //EV T2
+        GT_Values.RA.stdBuilder()
+            .itemInputs(
+                ItemList.Circuit_Board_Epoxy_Advanced.get(1),
+                ItemList.Circuit_Nanoprocessor.get(2),
+                ItemList.Circuit_Parts_InductorSMD.get(8),
+                ItemList.Circuit_Parts_CapacitorSMD.get(8),
+                ItemList.Circuit_Chip_Ram.get(8),
+                GT_OreDictUnificator.get(OrePrefixes.wireFine,Materials.Electrum,16)
+                )
+            .itemOutputs(ItemList.Circuit_Nanocomputer.get(1))
+            .fluidInputs(tMat.getMolten(288L * tMultiplier / 2))
+            .duration(20 * SECONDS)
+            .eut((int) 600)
+            .requiresCleanRoom()
+            .addTo(circuitAssemblerRecipes);
+        //EV T2 Advanced
+        GT_Values.RA.stdBuilder()
+            .itemInputs(
+                ItemList.Circuit_Board_Epoxy_Advanced.get(1),
+                ItemList.Circuit_Nanoprocessor.get(2),
+                ItemList.Circuit_Parts_InductorASMD.get(2),
+                ItemList.Circuit_Parts_CapacitorASMD.get(2),
+                ItemList.Circuit_Chip_Ram.get(8),
+                GT_OreDictUnificator.get(OrePrefixes.wireFine,Materials.Electrum,16)
+                )
+            .itemOutputs(ItemList.Circuit_Nanocomputer.get(1))
+            .fluidInputs(tMat.getMolten(288L * tMultiplier / 2))
+            .duration(10 * SECONDS)
+            .eut((int) 600)
+            .requiresCleanRoom()
+            .addTo(circuitAssemblerRecipes);
+        //EV T3
+        GT_Values.RA.stdBuilder()
+            .itemInputs(
+                ItemList.Circuit_Board_Fiberglass_Advanced.get(1),
+                ItemList.Circuit_Chip_QuantumCPU.get(1),
+                ItemList.Circuit_Chip_NanoCPU.get(1),
+                ItemList.Circuit_Parts_CapacitorSMD.get(12),
+                ItemList.Circuit_Parts_TransistorSMD.get(12),
+                GT_OreDictUnificator.get(OrePrefixes.wireFine,Materials.Platinum,16)
+            )
+            .itemOutputs(ItemList.Circuit_Quantumprocessor.get(1))
+            .fluidInputs(tMat.getMolten(144L * tMultiplier / 2))
+            .duration(20 * SECONDS)
+            .eut((int) 2_400)
+            .requiresCleanRoom()
+            .addTo(circuitAssemblerRecipes);
+        //EV T3 Advanced
+        GT_Values.RA.stdBuilder()
+            .itemInputs(
+                ItemList.Circuit_Board_Fiberglass_Advanced.get(1),
+                ItemList.Circuit_Chip_QuantumCPU.get(1),
+                ItemList.Circuit_Chip_NanoCPU.get(1),
+                ItemList.Circuit_Parts_CapacitorASMD.get(3),
+                ItemList.Circuit_Parts_TransistorASMD.get(3),
+                GT_OreDictUnificator.get(OrePrefixes.wireFine,Materials.Platinum,16)
+            )
+            .itemOutputs(ItemList.Circuit_Quantumprocessor.get(1))
+            .fluidInputs(tMat.getMolten(144L * tMultiplier / 2))
+            .duration(10 * SECONDS)
+            .eut((int) 2_400)
+            .requiresCleanRoom()
+            .addTo(circuitAssemblerRecipes);
+        //IV T1
+        GT_Values.RA.stdBuilder()
+            .itemInputs(
+                GT_OreDictUnificator.get(OrePrefixes.frameGt,Materials.Aluminium,2),
+                GT_OreDictUnificator.get(OrePrefixes.circuit,Materials.Data,2),
+                ItemList.Circuit_Parts_Coil.get(12),
+                ItemList.Circuit_Parts_Capacitor.get(24),
+                ItemList.Circuit_Chip_Ram.get(16),
+                GT_OreDictUnificator.get(OrePrefixes.wireFine,Materials.AnnealedCopper,24)
+            )
+            .itemOutputs(ItemList.Circuit_Elite.get(1))
+            .fluidInputs(tMat.getMolten(576L * tMultiplier / 2))
+            .duration(80 * SECONDS)
+            .eut((int) 480)
+            .requiresCleanRoom()
+            .addTo(circuitAssemblerRecipes);
+        //IV T1 Advanced
+        GT_Values.RA.stdBuilder()
+            .itemInputs(
+                GT_OreDictUnificator.get(OrePrefixes.frameGt,Materials.Aluminium,2),
+                GT_OreDictUnificator.get(OrePrefixes.circuit,Materials.Data,2),
+                ItemList.Circuit_Parts_CapacitorASMD.get(3),
+                ItemList.Circuit_Parts_CapacitorASMD.get(4),
+                ItemList.Circuit_Chip_Ram.get(16),
+                GT_OreDictUnificator.get(OrePrefixes.wireFine,Materials.AnnealedCopper,16)
+            )
+            .itemOutputs(ItemList.Circuit_Elite.get(1))
+            .fluidInputs(tMat.getMolten(576L * tMultiplier / 2))
+            .duration(40 * SECONDS)
+            .eut((int) 480)
+            .requiresCleanRoom()
+            .addTo(circuitAssemblerRecipes);
+        //IV T2
+        GT_Values.RA.stdBuilder()
+            .itemInputs(
+                ItemList.Circuit_Board_Epoxy_Advanced.get(1),
+                ItemList.Circuit_Nanocomputer.get(1),
+                ItemList.Circuit_Parts_DiodeSMD.get(8),
+                ItemList.Circuit_Chip_NOR.get(4),
+                ItemList.Circuit_Chip_Ram.get(16),
+                GT_OreDictUnificator.get(OrePrefixes.wireFine,Materials.Electrum,16)
+            )
+            .itemOutputs(ItemList.Circuit_Elitenanocomputer.get(1))
+            .fluidInputs(tMat.getMolten(288L * tMultiplier / 2))
+            .duration(20 * SECONDS)
+            .eut((int) 600)
+            .requiresCleanRoom()
+            .addTo(circuitAssemblerRecipes);
+        //IV T2 Advanced
+        GT_Values.RA.stdBuilder()
+            .itemInputs(
+                ItemList.Circuit_Board_Epoxy_Advanced.get(1),
+                ItemList.Circuit_Nanocomputer.get(1),
+                ItemList.Circuit_Parts_DiodeASMD.get(2),
+                ItemList.Circuit_Chip_NOR.get(4),
+                ItemList.Circuit_Chip_Ram.get(16),
+                GT_OreDictUnificator.get(OrePrefixes.wireFine,Materials.Electrum,16)
+            )
+            .itemOutputs(ItemList.Circuit_Elitenanocomputer.get(1))
+            .fluidInputs(tMat.getMolten(288L * tMultiplier / 2))
+            .duration(10 * SECONDS)
+            .eut((int) 600)
+            .requiresCleanRoom()
+            .addTo(circuitAssemblerRecipes);
+        //IV T3
+        GT_Values.RA.stdBuilder()
+            .itemInputs(
+                ItemList.Circuit_Board_Fiberglass_Advanced.get(1),
+                ItemList.Circuit_Quantumprocessor.get(1),
+                ItemList.Circuit_Parts_InductorSMD.get(12),
+                ItemList.Circuit_Parts_CapacitorASMD.get(16),
+                ItemList.Circuit_Chip_Ram.get(4),
+                GT_OreDictUnificator.get(OrePrefixes.wireFine,Materials.Platinum,24)
+            )
+            .itemOutputs(ItemList.Circuit_Quantumcomputer.get(1))
+            .fluidInputs(tMat.getMolten(288L * tMultiplier / 2))
+            .duration(20 * SECONDS)
+            .eut((int) 2_400)
+            .requiresCleanRoom()
+            .addTo(circuitAssemblerRecipes);
+        //IV T3 Advanced
+        GT_Values.RA.stdBuilder()
+            .itemInputs(
+                ItemList.Circuit_Board_Fiberglass_Advanced.get(1),
+                ItemList.Circuit_Quantumprocessor.get(1),
+                ItemList.Circuit_Parts_InductorASMD.get(3),
+                ItemList.Circuit_Parts_CapacitorASMD.get(4),
+                ItemList.Circuit_Chip_Ram.get(4),
+                GT_OreDictUnificator.get(OrePrefixes.wireFine,Materials.Platinum,24)
+            )
+            .itemOutputs(ItemList.Circuit_Quantumcomputer.get(1))
+            .fluidInputs(tMat.getMolten(288L * tMultiplier / 2))
+            .duration(10 * SECONDS)
+            .eut((int) 2_400)
+            .requiresCleanRoom()
+            .addTo(circuitAssemblerRecipes);
     }
 
 

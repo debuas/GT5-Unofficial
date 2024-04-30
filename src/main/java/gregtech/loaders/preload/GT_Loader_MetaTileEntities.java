@@ -371,6 +371,7 @@ import static gregtech.api.enums.MetaTileEntityIDs.STEAM_MACERATOR;
 import static gregtech.api.enums.MetaTileEntityIDs.STEAM_TURBINE_HV;
 import static gregtech.api.enums.MetaTileEntityIDs.STEAM_TURBINE_LV;
 import static gregtech.api.enums.MetaTileEntityIDs.STEAM_TURBINE_MV;
+import static gregtech.api.enums.MetaTileEntityIDs.STORAGE_CHEST_METAL;
 import static gregtech.api.enums.MetaTileEntityIDs.SUPER_BUFFER_EV;
 import static gregtech.api.enums.MetaTileEntityIDs.SUPER_BUFFER_HV;
 import static gregtech.api.enums.MetaTileEntityIDs.SUPER_BUFFER_IV;
@@ -456,6 +457,7 @@ import static gregtech.api.enums.MetaTileEntityIDs.transformer_ZPM_LuV;
 import static gregtech.api.enums.Mods.Forestry;
 import static gregtech.api.enums.Mods.NewHorizonsCoreMod;
 
+import gregtech.common.tileentities.storage.GT_MetaTileEntity_MetalChest;
 import net.minecraft.util.EnumChatFormatting;
 
 import gregtech.GT_Mod;
@@ -4020,6 +4022,12 @@ public class GT_Loader_MetaTileEntities implements Runnable { // TODO CHECK CIRC
         }
     }
 
+    private static void registerStorageChest() {
+        ItemList.Storage_Chest_Metal.set(
+            new GT_MetaTileEntity_MetalChest(STORAGE_CHEST_METAL.ID, "storage.chest.metal", "Metal Storage Chest", 36, Materials.Lead)
+                .getStackForm(1L));
+    }
+
     @Override
     public void run() {
         GT_Log.out.println("GT_Mod: Registering MetaTileEntities.");
@@ -4079,6 +4087,7 @@ public class GT_Loader_MetaTileEntities implements Runnable { // TODO CHECK CIRC
         registerMagicEnergyConverters();
         registerPlasmaGenerators();
         registerMultiblockControllers();
+        registerStorageChest();
 
         ItemList.AdvDebugStructureWriter.set(
             new GT_MetaTileEntity_AdvDebugStructureWriter(

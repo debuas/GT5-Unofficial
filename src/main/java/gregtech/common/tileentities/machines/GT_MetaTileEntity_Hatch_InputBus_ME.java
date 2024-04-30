@@ -397,7 +397,7 @@ public class GT_MetaTileEntity_Hatch_InputBus_ME extends GT_MetaTileEntity_Hatch
         if (aIndex == getCircuitSlot() || aIndex == getManualSlot()) return mInventory[aIndex];
         if (mInventory[aIndex] != null) {
             AENetworkProxy proxy = getProxy();
-            if (proxy == null) {
+            if (proxy == null || !proxy.isActive()) {
                 return null;
             }
             try {
@@ -495,7 +495,11 @@ public class GT_MetaTileEntity_Hatch_InputBus_ME extends GT_MetaTileEntity_Hatch
                             checkRecipeResult = SimpleCheckRecipeResult
                                 .ofFailurePersistOnShutdown("stocking_bus_fail_extraction");
                         }
-                    } catch (final GridAccessException ignored) {}
+                    } catch (final GridAccessException ignored) {
+                        controller.stopMachine(ShutDownReasonRegistry.CRITICAL_NONE);
+                        checkRecipeResult = SimpleCheckRecipeResult
+                            .ofFailurePersistOnShutdown("stocking_hatch_fail_extraction");
+                    }
                 }
                 savedStackSizes[i] = 0;
                 shadowInventory[i] = null;
@@ -531,6 +535,16 @@ public class GT_MetaTileEntity_Hatch_InputBus_ME extends GT_MetaTileEntity_Hatch
             }
         }
         return null;
+    }
+
+    /**
+     * Used to avoid slot update.
+     */
+    public ItemStack getShadowItemStack(int index) {
+        if (index < 0 || index >= shadowInventory.length) {
+            return null;
+        }
+        return shadowInventory[index];
     }
 
     @Override

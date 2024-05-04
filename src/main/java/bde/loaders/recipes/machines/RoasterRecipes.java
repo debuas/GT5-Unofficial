@@ -1,4 +1,4 @@
-package gregtech.loaders.postload.recipes;
+package bde.loaders.recipes.machines;
 
 import static gregtech.api.recipe.RecipeMaps.roasterRecipes;
 import static gregtech.api.util.GT_RecipeBuilder.SECONDS;

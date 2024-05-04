@@ -3,6 +3,7 @@ package bde.loaders.recipes;
 import bde.loaders.recipes.machines.BlastFurnaceRecipes;
 import bde.loaders.recipes.machines.CircuitAssemblerRecipes;
 import bde.loaders.recipes.machines.CuttingRecipes;
+import bde.loaders.recipes.machines.RoasterRecipes;
 import gregtech.api.enums.Materials;
 
 public class BDE_MachineRecipeLoader implements Runnable {
@@ -15,5 +16,6 @@ public class BDE_MachineRecipeLoader implements Runnable {
         new BlastFurnaceRecipes().run();
         new CuttingRecipes().run();
         new CircuitAssemblerRecipes().run();
+        new RoasterRecipes().run();
     }
 }

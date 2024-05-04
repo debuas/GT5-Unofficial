@@ -47,7 +47,6 @@ import gregtech.loaders.postload.recipes.PrinterRecipes;
 import gregtech.loaders.postload.recipes.Pulverizer;
 import gregtech.loaders.postload.recipes.PyrolyseRecipes;
 import gregtech.loaders.postload.recipes.RecipeRemover;
-import gregtech.loaders.postload.recipes.RoasterRecipes;
 import gregtech.loaders.postload.recipes.SifterRecipes;
 import gregtech.loaders.postload.recipes.SlicerRecipes;
 import gregtech.loaders.postload.recipes.SmelterRecipes;
@@ -109,7 +108,6 @@ public class GT_MachineRecipeLoader implements Runnable {
         new Pulverizer().run();
         new PyrolyseRecipes().run();
         new RecipeRemover().run();
-        new RoasterRecipes().run();
         new SifterRecipes().run();
         new SlicerRecipes().run();
         new SmelterRecipes().run();

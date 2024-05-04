@@ -457,7 +457,6 @@ import static gregtech.api.enums.MetaTileEntityIDs.transformer_ZPM_LuV;
 import static gregtech.api.enums.Mods.Forestry;
 import static gregtech.api.enums.Mods.NewHorizonsCoreMod;
 
-import gregtech.common.tileentities.storage.GT_MetaTileEntity_MetalChest;
 import net.minecraft.util.EnumChatFormatting;
 
 import gregtech.GT_Mod;
@@ -596,6 +595,7 @@ import gregtech.common.tileentities.machines.steam.GT_MetaTileEntity_Furnace_Ste
 import gregtech.common.tileentities.machines.steam.GT_MetaTileEntity_Macerator_Bronze;
 import gregtech.common.tileentities.machines.steam.GT_MetaTileEntity_Macerator_Steel;
 import gregtech.common.tileentities.storage.GT_MetaTileEntity_Locker;
+import gregtech.common.tileentities.storage.GT_MetaTileEntity_MetalChest;
 import gregtech.common.tileentities.storage.GT_MetaTileEntity_QuantumChest;
 import gregtech.common.tileentities.storage.GT_MetaTileEntity_QuantumTank;
 import gregtech.common.tileentities.storage.GT_MetaTileEntity_SuperChest;
@@ -4024,8 +4024,12 @@ public class GT_Loader_MetaTileEntities implements Runnable { // TODO CHECK CIRC
 
     private static void registerStorageChest() {
         ItemList.Storage_Chest_Metal.set(
-            new GT_MetaTileEntity_MetalChest(STORAGE_CHEST_METAL.ID, "storage.chest.metal", "Metal Storage Chest", 36, Materials.Lead)
-                .getStackForm(1L));
+            new GT_MetaTileEntity_MetalChest(
+                STORAGE_CHEST_METAL.ID,
+                "storage.chest.metal",
+                "Metal Storage Chest",
+                36,
+                Materials.Lead).getStackForm(1L));
     }
 
     @Override

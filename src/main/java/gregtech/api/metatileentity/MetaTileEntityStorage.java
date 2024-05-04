@@ -1,41 +1,31 @@
 package gregtech.api.metatileentity;
 
-import com.gtnewhorizons.modularui.api.screen.ITileWithModularUI;
-import com.gtnewhorizons.modularui.api.screen.ModularWindow;
-import com.gtnewhorizons.modularui.api.screen.UIBuildContext;
-import gregtech.api.enums.InventoryType;
-import gregtech.api.enums.Textures;
-import gregtech.api.gui.GUIHost;
-import gregtech.api.gui.GUIProvider;
-import gregtech.api.interfaces.IConfigurationCircuitSupport;
-import gregtech.api.interfaces.ITexture;
-import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
-import gregtech.api.interfaces.modularui.IGetGUITextureSet;
-import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
-import gregtech.api.interfaces.tileentity.IHasWorldObjectAndCoords;
-import gregtech.api.logic.ItemInventoryLogic;
-import gregtech.api.logic.interfaces.ItemInventoryLogicHost;
-import gregtech.common.gui.InventoryGUIProvider;
+import java.util.function.Supplier;
+
+import javax.annotation.Nonnull;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.util.ForgeDirection;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.Nonnull;
-import java.util.ArrayList;
-import java.util.function.Supplier;
+import com.gtnewhorizons.modularui.api.screen.UIBuildContext;
 
-public abstract class MetaTileEntityStorage
-    extends BaseTileEntity
-    implements ItemInventoryLogicHost,
-    GUIHost,
-    IGetGUITextureSet
+import gregtech.api.enums.InventoryType;
+import gregtech.api.gui.GUIHost;
+import gregtech.api.gui.GUIProvider;
+import gregtech.api.interfaces.modularui.IGetGUITextureSet;
+import gregtech.api.logic.ItemInventoryLogic;
+import gregtech.api.logic.interfaces.ItemInventoryLogicHost;
+import gregtech.common.gui.InventoryGUIProvider;
+
+public abstract class MetaTileEntityStorage extends BaseTileEntity
+    implements ItemInventoryLogicHost, GUIHost, IGetGUITextureSet
 
 {
-
 
     protected int storageSize = 27;
     protected int default_cols = 9;
@@ -49,8 +39,7 @@ public abstract class MetaTileEntityStorage
     @Nonnull
     protected ItemInventoryLogic storage;
 
-
-    //ItemInventoryLogicHost
+    // ItemInventoryLogicHost
 
     @Nullable
     @Override
@@ -97,8 +86,7 @@ public abstract class MetaTileEntityStorage
         return true;
     }
 
-
-    //nbt
+    // nbt
 
     @Override
     public void writeToNBT(NBTTagCompound aNBT) {
@@ -112,7 +100,7 @@ public abstract class MetaTileEntityStorage
         loadItemLogic(aNBT);
     }
 
-    //ItemLogic NBT
+    // ItemLogic NBT
     protected void saveItemLogic(NBTTagCompound nbt) {
         NBTTagCompound nbtListInput = storage.saveToNBT();
         nbt.setTag("gt.inventory.storage.inv", nbtListInput);
@@ -129,24 +117,21 @@ public abstract class MetaTileEntityStorage
             storage.loadFromNBT(nbt.getCompoundTag("gt.inventory.storage.inv"));
         }
 
-
     }
 
     // Enet False
 
     @Override
-    public boolean shouldJoinIc2Enet(){
+    public boolean shouldJoinIc2Enet() {
         return false;
     }
 
-    //ModularUI
-
+    // ModularUI
 
     @Override
     public boolean useModularUI() {
         return true;
     }
-
 
     @Nonnull
     protected GUIProvider<?> createGUIProvider() {
@@ -160,13 +145,14 @@ public abstract class MetaTileEntityStorage
 
     @Override
     public int getHeight() {
-        //Slot Size 18px
-        //Border sizes for player inventory 7px
-        //Rendered Storage Inventory size will atleast be 1 slot heigh + border at max 6 slots height + border
-        return Math.max((18 * 4 + 3 * 7 + 18), (18 * 4 + 3 * 7 + (Math.max(1, Math.min(6,this.storageSize / this.default_cols))) * 18 + 4));
+        // Slot Size 18px
+        // Border sizes for player inventory 7px
+        // Rendered Storage Inventory size will atleast be 1 slot heigh + border at max 6 slots height + border
+        return Math.max(
+            (18 * 4 + 3 * 7 + 18),
+            (18 * 4 + 3 * 7 + (Math.max(1, Math.min(6, this.storageSize / this.default_cols))) * 18 + 4));
     }
 
-    //Texture
-
+    // Texture
 
 }

@@ -64,6 +64,7 @@ import gregtech.common.blocks.GT_Block_Drone;
 import gregtech.common.blocks.GT_Block_Granites;
 import gregtech.common.blocks.GT_Block_Machines;
 import gregtech.common.blocks.GT_Block_Metal;
+import gregtech.common.blocks.GT_Block_MetalChest1;
 import gregtech.common.blocks.GT_Block_Ores;
 import gregtech.common.blocks.GT_Block_Reinforced;
 import gregtech.common.blocks.GT_Block_Stones;
@@ -542,6 +543,7 @@ public class GT_Loader_Item_Block_And_Fluid implements Runnable {
         GregTech_API.sBlockStones = new GT_Block_Stones();
         GregTech_API.sBlockOres1 = new GT_Block_Ores();
         GregTech_API.sDroneRender = new GT_Block_Drone();
+        GregTech_API.sBlockMetalChest1 = new GT_Block_MetalChest1();
         // meta ID order, DO NOT CHANGE ORDER
 
         GregTech_API.sBlockMetal1 = new GT_Block_Metal(

@@ -1,5 +1,15 @@
 package gregtech.common.gui;
 
+import java.util.List;
+
+import javax.annotation.Nonnull;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraftforge.common.util.ForgeDirection;
+
+import org.jetbrains.annotations.NotNull;
+
 import com.gtnewhorizons.modularui.api.drawable.ItemDrawable;
 import com.gtnewhorizons.modularui.api.math.Alignment;
 import com.gtnewhorizons.modularui.api.screen.ModularWindow;
@@ -8,24 +18,13 @@ import com.gtnewhorizons.modularui.common.internal.network.NetworkUtils;
 import com.gtnewhorizons.modularui.common.widget.DrawableWidget;
 import com.gtnewhorizons.modularui.common.widget.MultiChildWidget;
 import com.gtnewhorizons.modularui.common.widget.TextWidget;
+
 import gregtech.GT_Mod;
 import gregtech.api.enums.InventoryType;
 import gregtech.api.gui.GUIHost;
 import gregtech.api.gui.GUIProvider;
-import gregtech.api.gui.modularui.GT_UITextures;
 import gregtech.api.gui.modularui.GUITextureSet;
 import gregtech.api.logic.interfaces.ItemInventoryLogicHost;
-import gregtech.api.metatileentity.BaseTileEntity;
-import gregtech.api.metatileentity.MetaTileEntity;
-import gregtech.api.multitileentity.base.MultiTileEntity;
-import gregtech.api.multitileentity.interfaces.IMultiTileEntity;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraftforge.common.util.ForgeDirection;
-import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.Nonnull;
-import java.util.List;
 
 public class InventoryGUIProvider<T extends GUIHost & ItemInventoryLogicHost> extends GUIProvider<T> {
 
@@ -36,61 +35,57 @@ public class InventoryGUIProvider<T extends GUIHost & ItemInventoryLogicHost> ex
 
     protected int tooltip_delay = 5;
 
-
     @Override
     protected void attachSynchHandlers(@NotNull ModularWindow.Builder builder, @NotNull UIBuildContext uiContext) {
 
     }
 
-
-    public InventoryGUIProvider(@Nonnull T host){
+    public InventoryGUIProvider(@Nonnull T host) {
         super(host);
     }
-    public InventoryGUIProvider(@Nonnull T host , int cols){
+
+    public InventoryGUIProvider(@Nonnull T host, int cols) {
         super(host);
         this.cols = cols;
     }
 
-    public InventoryGUIProvider<T> setTitleColor(int title_color){
+    public InventoryGUIProvider<T> setTitleColor(int title_color) {
         this.title_color = title_color;
         return this;
     }
-    public InventoryGUIProvider<T> setGUITextureSet(GUITextureSet guiTextureSet){
-        if (guiTextureSet != null){
-            this.guiTextureSet =guiTextureSet;
+
+    public InventoryGUIProvider<T> setGUITextureSet(GUITextureSet guiTextureSet) {
+        if (guiTextureSet != null) {
+            this.guiTextureSet = guiTextureSet;
         }
         return this;
     }
 
-    public InventoryGUIProvider<T> setToolTipDelay(int tooltip_delay){
+    public InventoryGUIProvider<T> setToolTipDelay(int tooltip_delay) {
         this.tooltip_delay = tooltip_delay;
         return this;
     }
 
-
     @Override
     protected void addWidgets(@NotNull ModularWindow.Builder builder, @NotNull UIBuildContext uiContext) {
-        //builder.setBackground(GT_UITextures.BACKGROUND_SINGLEBLOCK_DEFAULT);
+        // builder.setBackground(GT_UITextures.BACKGROUND_SINGLEBLOCK_DEFAULT);
         builder.setBackground(guiTextureSet.getMainBackground());
         MultiChildWidget mainTab = new MultiChildWidget();
-        mainTab.setSize(host.getWidth(),host.getHeight());
-        createMainTab(mainTab,builder,uiContext);
+        mainTab.setSize(host.getWidth(), host.getHeight());
+        createMainTab(mainTab, builder, uiContext);
         addTitleToUI(builder);
-        builder
-            .widget(mainTab)
-        ;
+        builder.widget(mainTab);
 
     }
 
     protected void createMainTab(@Nonnull MultiChildWidget tab, @Nonnull ModularWindow.Builder builder,
-                                 @Nonnull UIBuildContext uiBuildContext) {
+        @Nonnull UIBuildContext uiBuildContext) {
         var logic = host.getItemLogic(ForgeDirection.UNKNOWN, InventoryType.Both);
         if (logic == null) return;
         tab.addChild(
-                logic
-                .getGUIPart(9)
+            logic.getGUIPart(9)
                 .setPos(4, 4)
-                .setSize(18*cols+4, (18 * Math.min(Math.max(1,host.getSizeInventory()/this.cols),6)))
+                .setSize(18 * cols + 4, (18 * Math.min(Math.max(1, host.getSizeInventory() / this.cols), 6)))
 
         );
     }
@@ -106,7 +101,6 @@ public class InventoryGUIProvider<T extends GUIHost & ItemInventoryLogicHost> ex
             addTitleTextStyle(builder, title);
         }
     }
-
 
     protected void addTitleTextStyle(ModularWindow.Builder builder, String title) {
         final int TAB_PADDING = 3;
@@ -144,9 +138,9 @@ public class InventoryGUIProvider<T extends GUIHost & ItemInventoryLogicHost> ex
     protected void addTitleItemIconStyle(ModularWindow.Builder builder, String title) {
         builder.widget(
             new MultiChildWidget().addChild(
-                    new DrawableWidget().setDrawable(guiTextureSet.getTitleTabNormal())
-                        .setPos(0, 0)
-                        .setSize(24, 24))
+                new DrawableWidget().setDrawable(guiTextureSet.getTitleTabNormal())
+                    .setPos(0, 0)
+                    .setSize(24, 24))
                 .addChild(
                     new ItemDrawable(host.getAsItem()).asWidget()
                         .setPos(4, 4))
@@ -154,7 +148,5 @@ public class InventoryGUIProvider<T extends GUIHost & ItemInventoryLogicHost> ex
                 .setTooltipShowUpDelay(tooltip_delay)
                 .setPos(0, -24 + 3));
     }
-
-
 
 }

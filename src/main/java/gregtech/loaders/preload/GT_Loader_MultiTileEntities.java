@@ -6,7 +6,6 @@ import static gregtech.api.multitileentity.enums.GT_MultiTileComponentCasing.*;
 import static gregtech.api.multitileentity.enums.GT_MultiTileUpgradeCasing.*;
 import static gregtech.api.multitileentity.enums.GT_MultiTileUpgradeCasing.Insulator_OmegaType;
 
-import gregtech.api.multitileentity.storage.MetalChest;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 
@@ -15,6 +14,7 @@ import gregtech.api.multitileentity.MultiTileEntityBlock;
 import gregtech.api.multitileentity.MultiTileEntityRegistry;
 import gregtech.api.multitileentity.multiblock.base.WallShareablePart;
 import gregtech.api.multitileentity.multiblock.casing.BasicCasing;
+import gregtech.api.multitileentity.storage.MetalChest;
 import gregtech.common.tileentities.casings.functional.Conveyor;
 import gregtech.common.tileentities.casings.functional.Emitter;
 import gregtech.common.tileentities.casings.functional.FieldGenerator;
@@ -51,7 +51,6 @@ public class GT_Loader_MultiTileEntities implements Runnable {
         .getOrCreate("GregTech", "machine", Material.iron, Block.soundTypeMetal, "wrench", 0, 0, 15, true, true);
     public static final MultiTileEntityBlock STORAGE_BLOCK = MultiTileEntityBlock
         .getOrCreate("GregTech", "machine", Material.iron, Block.soundTypeMetal, "pickaxe", 0, 0, 15, true, true);
-
 
     public static final MultiTileEntityRegistry CASING_REGISTRY = new MultiTileEntityRegistry(CASING_REGISTRY_NAME);
     public static final MultiTileEntityBlock CASING_BLOCK = MultiTileEntityBlock
@@ -1453,9 +1452,9 @@ public class GT_Loader_MultiTileEntities implements Runnable {
             .register();
     }
 
-    //Storage registration for testing purposes
-    //may change later
-    private static void registerStorage(){
+    // Storage registration for testing purposes
+    // may change later
+    private static void registerStorage() {
         STORAGE_REGISTRY.create(1, MetalChest.class)
             .name("Iron Chest")
             .setBlock(STORAGE_BLOCK)
@@ -1467,30 +1466,29 @@ public class GT_Loader_MultiTileEntities implements Runnable {
             .setBlock(STORAGE_BLOCK)
             .material(Materials.Gold)
             .textureFolder("MetalChest")
-            .setNBT("gt.inventory.storage.size",54)
+            .setNBT("gt.inventory.storage.size", 54)
             .register();
         STORAGE_REGISTRY.create(3, MetalChest.class)
             .name("Platinum Chest")
             .setBlock(STORAGE_BLOCK)
             .material(Materials.Platinum)
             .textureFolder("MetalChest")
-            .setNBT("gt.inventory.storage.size",69)
+            .setNBT("gt.inventory.storage.size", 69)
             .register();
         STORAGE_REGISTRY.create(4, MetalChest.class)
             .name("Lead Chest")
             .setBlock(STORAGE_BLOCK)
             .material(Materials.Lead)
             .textureFolder("MetalChest")
-            .setNBT("gt.inventory.storage.size",9)
+            .setNBT("gt.inventory.storage.size", 9)
             .register();
         STORAGE_REGISTRY.create(5, MetalChest.class)
             .name("Red Granite Chest")
             .setBlock(STORAGE_BLOCK)
             .material(Materials.GraniteRed)
             .textureFolder("MetalChest")
-            .setNBT("gt.inventory.storage.size",1)
+            .setNBT("gt.inventory.storage.size", 1)
             .register();
     }
-
 
 }

@@ -1,33 +1,19 @@
 package gregtech.api.metatileentity.implementations;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import gregtech.GT_Mod;
-import gregtech.api.enums.Materials;
-import gregtech.api.enums.Mods;
-import gregtech.api.enums.Textures;
-import gregtech.api.interfaces.ITexture;
-import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
-import gregtech.api.interfaces.tileentity.ITexturedTileEntity;
-import gregtech.api.metatileentity.MetaTileEntityStorage;
-import gregtech.api.render.TextureFactory;
-import gregtech.common.GT_Client;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockContainer;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.Entity;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
+
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
-import java.util.List;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+import gregtech.api.enums.Materials;
+import gregtech.api.interfaces.tileentity.ITexturedTileEntity;
+import gregtech.api.metatileentity.MetaTileEntityStorage;
 
 public abstract class GT_MetaTileEntity_Storage_Chest extends MetaTileEntityStorage implements ITexturedTileEntity
 
 {
+
     @NotNull
     Materials amaterial;
     @NotNull
@@ -37,7 +23,8 @@ public abstract class GT_MetaTileEntity_Storage_Chest extends MetaTileEntityStor
     @NotNull
     String aRegionalame;
 
-    public GT_MetaTileEntity_Storage_Chest(int aID, String aBasicName, String aRegionalName, int aInvSlotCount , Materials amaterial) {
+    public GT_MetaTileEntity_Storage_Chest(int aID, String aBasicName, String aRegionalName, int aInvSlotCount,
+        Materials amaterial) {
         this.aID = aID;
         this.aBasicName = aBasicName;
         this.aRegionalame = aRegionalName;

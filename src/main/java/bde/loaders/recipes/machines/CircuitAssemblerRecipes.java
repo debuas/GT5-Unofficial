@@ -39,7 +39,7 @@ public class CircuitAssemblerRecipes extends gregtech.loaders.postload.recipes.C
         // IC2 LV Circuit
         GT_Values.RA.stdBuilder()
             .itemInputs(
-                ItemList.Circuit_Board_Basic.get(1),
+                ItemList.Circuit_Board_Coated_Basic.get(1),
                 ItemList.Circuit_Parts_Resistor.get(2),
                 GT_OreDictUnificator.get(OrePrefixes.wireGt01, Materials.RedAlloy, 2),
                 ItemList.Circuit_Parts_Vacuum_Tube.get(2))
@@ -51,7 +51,7 @@ public class CircuitAssemblerRecipes extends gregtech.loaders.postload.recipes.C
         // LV T2
         GT_Values.RA.stdBuilder()
             .itemInputs(
-                ItemList.Circuit_Board_Basic.get(1),
+                ItemList.Circuit_Board_Coated_Basic.get(1),
                 ItemList.Circuit_Chip_ILC.get(1),
                 ItemList.Circuit_Parts_Resistor.get(2),
                 ItemList.Circuit_Parts_Diode.get(2),

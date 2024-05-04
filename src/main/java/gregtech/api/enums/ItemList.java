@@ -1236,7 +1236,7 @@ public enum ItemList implements IItemContainer {
     Machine_HV_PlasmaArcFurnace,
     Machine_EV_PlasmaArcFurnace,
     Machine_IV_PlasmaArcFurnace,
-    //BDE Changes
+    // BDE Changes
     Machine_LV_Roaster,
     Machine_MV_Roaster,
     Machine_HV_Roaster,

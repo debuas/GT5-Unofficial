@@ -5,10 +5,11 @@ import bde.loaders.recipes.machines.CircuitAssemblerRecipes;
 import bde.loaders.recipes.machines.CuttingRecipes;
 import gregtech.api.enums.Materials;
 
-public class BDE_MachineRecipeLoader implements Runnable{
+public class BDE_MachineRecipeLoader implements Runnable {
 
     public static final Materials[] solderingMats = new Materials[] { Materials.Lead, Materials.SolderingAlloy,
         Materials.Tin };
+
     @Override
     public void run() {
         new BlastFurnaceRecipes().run();

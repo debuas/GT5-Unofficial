@@ -9,7 +9,6 @@ import static gregtech.api.util.GT_RecipeBuilder.MINUTES;
 import static gregtech.api.util.GT_RecipeBuilder.SECONDS;
 import static gregtech.api.util.GT_RecipeBuilder.TICKS;
 
-import gregtech.api.util.GT_RecipeBuilder;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 

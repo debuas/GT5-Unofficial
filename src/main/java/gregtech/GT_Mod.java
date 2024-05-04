@@ -14,8 +14,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.function.Predicate;
 
-import bde.loaders.recipes.BDE_CraftingRecipeLoader;
-import bde.loaders.recipes.BDE_MachineRecipeLoader;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -36,6 +34,8 @@ import com.google.common.base.Stopwatch;
 import com.google.common.collect.SetMultimap;
 
 import appeng.api.AEApi;
+import bde.loaders.recipes.BDE_CraftingRecipeLoader;
+import bde.loaders.recipes.BDE_MachineRecipeLoader;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;

@@ -1,12 +1,11 @@
 package bde.loaders.recipes;
 
-import gregtech.api.enums.*;
-import gregtech.api.util.GT_ModHandler;
-import ic2.core.Ic2Items;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
-import static gregtech.api.util.GT_ModHandler.getModItem;
+import gregtech.api.enums.*;
+import gregtech.api.util.GT_ModHandler;
+import ic2.core.Ic2Items;
 
 public class BDE_CraftingRecipeLoader implements Runnable {
 
@@ -20,7 +19,7 @@ public class BDE_CraftingRecipeLoader implements Runnable {
 
     @Override
     public void run() {
-        //BDE Changes Torch Recipe from Lignite Coal
+        // BDE Changes Torch Recipe from Lignite Coal
         GT_ModHandler.addCraftingRecipe(
             new ItemStack(Blocks.torch, 2),
             bits_no_remove_buffered,
@@ -41,7 +40,7 @@ public class BDE_CraftingRecipeLoader implements Runnable {
             bits_no_remove_buffered,
             new Object[] { "C", "S", 'C', OrePrefixes.gem.get(Materials.Lignite), 'S',
                 OrePrefixes.stick.get(Materials.Wood) });
-        //BDE Changes Torch from Coal dust and crushed Coal
+        // BDE Changes Torch from Coal dust and crushed Coal
         GT_ModHandler.addCraftingRecipe(
             new ItemStack(Blocks.torch, 4),
             bits_no_remove_buffered,
@@ -57,7 +56,7 @@ public class BDE_CraftingRecipeLoader implements Runnable {
             bits_no_remove_buffered,
             new Object[] { "C", "S", 'C', OrePrefixes.crushed.get(Materials.Coal), 'S',
                 OrePrefixes.stick.get(Materials.Wood) });
-        //BDE Changes Torch from Sulfur dust and crushed Sulfur
+        // BDE Changes Torch from Sulfur dust and crushed Sulfur
         GT_ModHandler.addCraftingRecipe(
             new ItemStack(Blocks.torch, 2),
             bits_no_remove_buffered,
@@ -68,18 +67,17 @@ public class BDE_CraftingRecipeLoader implements Runnable {
             bits_no_remove_buffered,
             new Object[] { "C", "S", 'C', OrePrefixes.crushed.get(Materials.Sulfur), 'S',
                 OrePrefixes.stick.get(Materials.Wood) });
-        //BDE Changes easy Drain Cover recipe (BDE08)
+        // BDE Changes easy Drain Cover recipe (BDE08)
         GT_ModHandler.addCraftingRecipe(
             ItemList.Cover_Drain.get(1),
             bits_no_remove_buffered,
-            new Object[] { "BBB", "BIB", "BBB", 'I' ,OrePrefixes.ingot.get(Materials.AnyIron), 'B',
-                new ItemStack(Blocks.iron_bars,1)  });
-        //BDE Changes Lapotron Crystal from Sapphire
+            new Object[] { "BBB", "BIB", "BBB", 'I', OrePrefixes.ingot.get(Materials.AnyIron), 'B',
+                new ItemStack(Blocks.iron_bars, 1) });
+        // BDE Changes Lapotron Crystal from Sapphire
         GT_ModHandler.addCraftingRecipe(
             Ic2Items.lapotronCrystal.copy(),
             bits_no_remove_buffered,
             new Object[] { "LCL", "LGL", "LCL", 'L', OrePrefixes.dust.get(Materials.Lapis), 'G',
-                OrePrefixes.gem.get(Materials.Sapphire), 'C', OrePrefixes.circuit.get(Materials.Advanced)}
-        );
+                OrePrefixes.gem.get(Materials.Sapphire), 'C', OrePrefixes.circuit.get(Materials.Advanced) });
     }
 }

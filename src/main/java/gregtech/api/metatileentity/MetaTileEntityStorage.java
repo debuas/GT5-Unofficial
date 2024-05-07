@@ -1,12 +1,18 @@
 package gregtech.api.metatileentity;
 
-import static gregtech.GT_Mod.GT_FML_LOGGER;
-
 import java.util.UUID;
 import java.util.function.Supplier;
 
 import javax.annotation.Nonnull;
 
+import gregtech.GT_Mod;
+import gregtech.api.GregTech_API;
+import gregtech.api.enums.ItemList;
+import gregtech.api.enums.SoundResource;
+import gregtech.api.gui.modularui.GT_UIInfos;
+import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
+import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
+import gregtech.api.util.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -14,39 +20,34 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
+
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.gtnewhorizons.modularui.api.screen.UIBuildContext;
 
-import gregtech.GT_Mod;
-import gregtech.api.GregTech_API;
 import gregtech.api.enums.InventoryType;
-import gregtech.api.enums.ItemList;
-import gregtech.api.enums.SoundResource;
 import gregtech.api.gui.GUIHost;
 import gregtech.api.gui.GUIProvider;
-import gregtech.api.gui.modularui.GT_UIInfos;
-import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
 import gregtech.api.interfaces.modularui.IGetGUITextureSet;
-import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.logic.ItemInventoryLogic;
 import gregtech.api.logic.interfaces.ItemInventoryLogicHost;
-import gregtech.api.util.*;
 import gregtech.common.gui.InventoryGUIProvider;
 
+import static gregtech.GT_Mod.GT_FML_LOGGER;
+
 public abstract class MetaTileEntityStorage extends BaseTileEntity
-    implements ItemInventoryLogicHost, GUIHost, IGetGUITextureSet, IGregTechTileEntity
+    implements ItemInventoryLogicHost, GUIHost, IGetGUITextureSet , IGregTechTileEntity
 
 {
 
     protected int storageSize = 27;
     protected int default_columns = 9;
     protected byte storedColor;
+    public long mTickTimer;
     protected ForgeDirection frontFacing;
     protected ForgeDirection facing;
 
@@ -89,6 +90,7 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
         return indexes;
     }
 
+
     @Override
     public boolean canExtractItem(int ignoredSlot, ItemStack ignoredItem, int side) {
         InventoryType type = getItemInventoryType();
@@ -113,19 +115,41 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
 
     @Override
     public void setInitialValuesAsNBT(NBTTagCompound aNBT, short aID) {
-        writeToNBT(aNBT);
+        if (aNBT == null){
+        } else {
+            if (aID <= 0) mId = (short) aNBT.getInteger("mID");
+            else mId = mId;
+            storedColor = aNBT.getByte("mStoredColor");
+            //facing = ForgeDirection.getOrientation(aNBT.getShort("mFacing"));
+            loadItemLogic(aNBT);
+        }
     }
 
     @Override
     public void writeToNBT(NBTTagCompound aNBT) {
+        try {
+            super.writeToNBT(aNBT);
+        } catch (Throwable e) {
+            GT_FML_LOGGER.error("Encountered CRITICAL ERROR while saving MetaTileEntity.", e);
+        }
+        try {
+        aNBT.setInteger("mID", mId);
+        aNBT.setByte("mStoredColor",storedColor);
         super.writeToNBT(aNBT);
         saveItemLogic(aNBT);
+        } catch (Throwable e) {
+        GT_FML_LOGGER.error("Encountered CRITICAL ERROR while saving MetaTileEntity.", e);
+        }
+
+        System.out.println("NBT Saved : " +  aNBT.toString());
     }
 
     @Override
     public void readFromNBT(NBTTagCompound aNBT) {
         super.readFromNBT(aNBT);
         loadItemLogic(aNBT);
+        setInitialValuesAsNBT(aNBT,(short) 0);
+
     }
 
     // ItemLogic NBT
@@ -146,7 +170,6 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
         }
 
     }
-
     @Override
     public void setMetaTileEntity(IMetaTileEntity aMetaTileEntity) {
         if (aMetaTileEntity instanceof MetaTileEntityStorage || aMetaTileEntity == null)
@@ -167,20 +190,13 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
     // interaction
     @Override
     public boolean onRightclick(EntityPlayer aPlayer, ForgeDirection side, float aX, float aY, float aZ) {
-        GT_Log.out.println("Interacted With Storage Type");
+
         if (isClientSide()) {
             GT_Log.out.println("Interacted With Storage Type was Client Side");
             // Configure Cover, sneak can also be: screwdriver, wrench, side cutter, soldering iron
             if (aPlayer.isSneaking()) {
-                final ForgeDirection tSide = (getCoverIDAtSide(side) == 0)
-                    ? GT_Utility.determineWrenchingSide(side, aX, aY, aZ)
-                    : side;
-                return (getCoverBehaviorAtSideNew(tSide).hasCoverGUI());
-            } else if (getCoverBehaviorAtSideNew(side).onCoverRightclickClient(side, this, aPlayer, aX, aY, aZ)) {
-                return true;
-            }
 
-            if (!getCoverInfoAtSide(side).isGUIClickable()) return false;
+            }
         }
 
         if (isServerSide()) {
@@ -322,26 +338,7 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
                      */
                     // End item != null
                 } else if (aPlayer.isSneaking()) { // Sneak click, no tool -> open cover config if possible.
-                    side = (getCoverIDAtSide(side) == 0) ? GT_Utility.determineWrenchingSide(side, aX, aY, aZ) : side;
-                    return getCoverIDAtSide(side) > 0 && getCoverBehaviorAtSideNew(side).onCoverShiftRightClick(
-                        side,
-                        getCoverIDAtSide(side),
-                        getComplexCoverDataAtSide(side),
-                        this,
-                        aPlayer);
                 }
-
-                if (getCoverBehaviorAtSideNew(side).onCoverRightClick(
-                    side,
-                    getCoverIDAtSide(side),
-                    getComplexCoverDataAtSide(side),
-                    this,
-                    aPlayer,
-                    aX,
-                    aY,
-                    aZ)) return true;
-
-                if (!getCoverInfoAtSide(side).isGUIClickable()) return false;
 
                 if (isUpgradable() && tCurrentItem != null) {
                     if (ItemList.Upgrade_Muffler.isStackEqual(aPlayer.inventory.getCurrentItem())) {
@@ -414,6 +411,8 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
         GT_Utility.sendChatToPlayer(aPlayer, "No free Side!");
         return true;
     }
+
+
 
     // Enet False
 
@@ -1023,6 +1022,26 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
     @Override
     public boolean isValidFacing(ForgeDirection side) {
         return true;
+    }
+
+
+    @Override
+    public void updateEntity() {
+        super.updateEntity();
+        if (mTickTimer++ == 0){
+
+        }
+    }
+
+    @Override
+    public long getTimer() {
+        return mTickTimer;
+    }
+
+    @Override
+    public void validate() {
+        super.validate();
+        mTickTimer = 0;
     }
 
 }

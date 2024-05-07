@@ -19,6 +19,8 @@ import static gregtech.api.util.GT_RecipeBuilder.WILDCARD;
 
 import java.util.Locale;
 
+import gregtech.api.metatileentity.MetaTileEntityStorage;
+import gregtech.common.tileentities.storage.GT_MetaTileEntity_MetalChest;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -677,6 +679,11 @@ public class GT_Loader_Item_Block_And_Fluid implements Runnable {
         GT_Log.out.println("GT_Mod: Registering the Ore TileEntity.");
         GameRegistry.registerTileEntity(GT_TileEntity_Ores.class, "GT_TileEntity_Ores");
         FMLInterModComms.sendMessage(AppliedEnergistics2.ID, "whitelist-spatial", GT_TileEntity_Ores.class.getName());
+
+        GT_Log.out.println("GT_Mod: Registering the Storage MetaTileEntity.");
+        GameRegistry.registerTileEntity(GT_MetaTileEntity_MetalChest.class, "MetaTileStorage");
+        FMLInterModComms.sendMessage(AppliedEnergistics2.ID, "whitelist-spatial", GT_MetaTileEntity_MetalChest.class.getName());
+
 
         GT_Log.out.println("GT_Mod: Registering Fluids.");
         Materials.ConstructionFoam.mFluid = GT_Utility

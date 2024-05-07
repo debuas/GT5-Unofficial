@@ -21,6 +21,11 @@ public class GT_MetaTileEntity_MetalChest extends GT_MetaTileEntity_Storage_Ches
         rgba = aMaterial.getRGBA();
     }
 
+    public GT_MetaTileEntity_MetalChest() {
+        this(0,"","",27,Materials._NULL);
+    }
+
+
     @Override
     public ItemStack getAsItem() {
         return null;
@@ -29,11 +34,6 @@ public class GT_MetaTileEntity_MetalChest extends GT_MetaTileEntity_Storage_Ches
     @Override
     public String getMachineName() {
         return "Metal Chest";
-    }
-
-    @Override
-    public long getTimer() {
-        return 0;
     }
 
     @Override

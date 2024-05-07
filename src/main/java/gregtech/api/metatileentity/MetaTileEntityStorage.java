@@ -60,7 +60,7 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
 
     protected int mId;
     @Nonnull
-    protected ItemInventoryLogic storage;
+    protected ItemInventoryLogic storage = new ItemInventoryLogic(storageSize);
 
     // ItemInventoryLogicHost
 
@@ -118,13 +118,13 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
 
     @Override
     public void writeToNBT(NBTTagCompound aNBT) {
-        super.writeToNBT(aNBT);
+        //super.writeToNBT(aNBT);
         saveItemLogic(aNBT);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound aNBT) {
-        super.readFromNBT(aNBT);
+        //super.readFromNBT(aNBT);
         loadItemLogic(aNBT);
     }
 
@@ -167,7 +167,9 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
     // interaction
     @Override
     public boolean onRightclick(EntityPlayer aPlayer, ForgeDirection side, float aX, float aY, float aZ) {
+        GT_Log.out.println("Interacted With Storage Type");
         if (isClientSide()) {
+            GT_Log.out.println("Interacted With Storage Type was Client Side");
             // Configure Cover, sneak can also be: screwdriver, wrench, side cutter, soldering iron
             if (aPlayer.isSneaking()) {
                 final ForgeDirection tSide = (getCoverIDAtSide(side) == 0)
@@ -182,6 +184,7 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
         }
 
         if (isServerSide()) {
+            GT_Log.out.println("Interacted With Storage Type was serverside");
             {
                 final ItemStack tCurrentItem = aPlayer.inventory.getCurrentItem();
                 if (tCurrentItem != null) {
@@ -360,9 +363,11 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
         }
 
         try {
+            GT_Log.out.println("Interacted With Storage Type triy open UI");
             if (!aPlayer.isSneaking() && mBaseMetaTileEntity != null && mBaseMetaTileEntity == this)
                 return this.onRightclick(this, aPlayer, side, aX, aY, aZ);
         } catch (Throwable e) {
+            GT_Log.out.println("Interacted With Storage Type failed open UI");
             GT_Log.err.println(
                 "Encountered Exception while rightclicking TileEntity, the Game should've crashed now, but I prevented that. Please report immediately to GregTech Intergalactical!!!");
             e.printStackTrace(GT_Log.err);
@@ -392,8 +397,11 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
     }
 
     public boolean onRightclick(IGregTechTileEntity aBaseMetaTileEntity, EntityPlayer aPlayer) {
+        GT_Log.out.println("Interacted With Storage Type onRightClick 2");
         if (aBaseMetaTileEntity.isClientSide()) return true;
+        GT_Log.out.println("Interacted With Storage Type onRightClick 2 passed client check");
         if (!GT_Mod.gregtechproxy.mForceFreeFace) {
+            GT_Log.out.println("Interacted With Storage Type onRightClick openUi");
             GT_UIInfos.openGTTileEntityUI(aBaseMetaTileEntity, aPlayer);
             return true;
         }

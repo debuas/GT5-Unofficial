@@ -1,7 +1,10 @@
 package gregtech.api.metatileentity.implementations;
 
+import gregtech.api.enums.InventoryType;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 
+import net.minecraftforge.common.util.ForgeDirection;
 import org.jetbrains.annotations.NotNull;
 
 import cpw.mods.fml.relauncher.Side;
@@ -9,6 +12,10 @@ import cpw.mods.fml.relauncher.SideOnly;
 import gregtech.api.enums.Materials;
 import gregtech.api.interfaces.tileentity.ITexturedTileEntity;
 import gregtech.api.metatileentity.MetaTileEntityStorage;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public abstract class GT_MetaTileEntity_Storage_Chest extends MetaTileEntityStorage implements ITexturedTileEntity
 
@@ -40,4 +47,14 @@ public abstract class GT_MetaTileEntity_Storage_Chest extends MetaTileEntityStor
         return AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
     }
 
+    @Override
+    public ArrayList<ItemStack> getDrops() {
+        return getStoredItems();
+    }
+
+    protected ArrayList<ItemStack> getStoredItems(){
+        ItemStack[] items = getItemLogic(ForgeDirection.UNKNOWN, InventoryType.Both).getStoredItems();
+        ArrayList<ItemStack> aDrops = new ArrayList<ItemStack>(Arrays.asList(items));
+        return aDrops;
+    }
 }

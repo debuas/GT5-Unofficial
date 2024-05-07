@@ -5,16 +5,22 @@ import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL12.GL_RESCALE_NORMAL;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
+import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import cpw.mods.fml.relauncher.Side;
@@ -65,6 +71,28 @@ public class GT_MetaTileEntity_MetalChest extends GT_MetaTileEntity_Storage_Ches
 
     short[] rgba;
     protected String mTextureName;
+
+
+    @Override
+    public boolean shouldDropItemAt(int index) {
+        return true;
+    }
+
+    @Override
+    public int getLightOpacity() {
+        return 0;
+    }
+
+    @Override
+    public void addCollisionBoxesToList(World aWorld, int aX, int aY, int aZ, AxisAlignedBB inputAABB, List<AxisAlignedBB> outputAABB, Entity collider) {
+
+    }
+
+    @Override
+    public AxisAlignedBB getCollisionBoundingBoxFromPool(World aWorld, int aX, int aY, int aZ) {
+        return null;
+    }
+
 
     @SideOnly(Side.CLIENT)
     public static class MetaTileEntityRendererChest extends TileEntitySpecialRenderer {

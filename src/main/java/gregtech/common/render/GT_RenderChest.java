@@ -21,6 +21,7 @@ import static org.lwjgl.opengl.GL12.GL_RESCALE_NORMAL;
 import java.util.HashMap;
 import java.util.Map;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -31,7 +32,6 @@ import net.minecraft.util.ResourceLocation;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import gregtech.api.enums.Mods;
 import gregtech.common.tileentities.storage.GT_MetaTileEntity_MetalChest;
 
 public class GT_RenderChest extends TileEntitySpecialRenderer {
@@ -39,19 +39,18 @@ public class GT_RenderChest extends TileEntitySpecialRenderer {
     private static final byte[] COMPASS_FROM_SIDE = { 0, 0, 0, 2, 3, 1, 0, 0 };
     private static final MetaTileEntityModelChest sModel = new MetaTileEntityModelChest();
     public final Map<String, ResourceLocation[]> mResources = new HashMap<>();
-    private static GT_RenderChest RENDERER;
 
     public GT_RenderChest() {
-        ClientRegistry.bindTileEntitySpecialRenderer(GT_MetaTileEntity_MetalChest.class, this);
-        RENDERER.mResources.put(
+        mResources.put(
             GT_MetaTileEntity_MetalChest.mTextureName,
             new ResourceLocation[] {
                 new ResourceLocation(
-                    Mods.GregTech.ID,
-                    "textures/model/metatileentity/" + GT_MetaTileEntity_MetalChest.mTextureName + ".colored.png"),
+                    GregTech.ID,
+                    "textures/model/metatileentity/metalchest.colored.png"),
                 new ResourceLocation(
                     GregTech.ID,
-                    "textures/model/metatileentity/" + GT_MetaTileEntity_MetalChest.mTextureName + ".plain.png") });
+                    "textures/model/metatileentity/metalchest.plain.png") });
+        ClientRegistry.bindTileEntitySpecialRenderer(GT_MetaTileEntity_MetalChest.class, this);
     }
 
     @Override

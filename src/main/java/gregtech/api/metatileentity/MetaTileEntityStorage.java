@@ -118,13 +118,13 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
 
     @Override
     public void writeToNBT(NBTTagCompound aNBT) {
-        //super.writeToNBT(aNBT);
+        super.writeToNBT(aNBT);
         saveItemLogic(aNBT);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound aNBT) {
-        //super.readFromNBT(aNBT);
+        super.readFromNBT(aNBT);
         loadItemLogic(aNBT);
     }
 

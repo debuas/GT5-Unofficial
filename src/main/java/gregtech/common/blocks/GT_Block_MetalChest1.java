@@ -2,6 +2,8 @@ package gregtech.common.blocks;
 
 import java.util.List;
 
+import gregtech.api.enums.Textures;
+import gregtech.common.render.GT_RenderChest;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -18,6 +20,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.IModelCustom;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -26,11 +29,9 @@ import cpw.mods.fml.relauncher.SideOnly;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Materials;
-import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.items.GT_Generic_Block;
 import gregtech.api.metatileentity.MetaTileEntityStorage;
-import gregtech.api.multitileentity.storage.MetalChest;
 import gregtech.api.util.GT_LanguageManager;
 import gregtech.api.util.GT_Utility;
 import gregtech.common.tileentities.storage.GT_MetaTileEntity_MetalChest;
@@ -40,7 +41,6 @@ import gregtech.common.tileentities.storage.GT_MetaTileEntity_MetalChest;
  * 16 subtypes at most.
  */
 public class GT_Block_MetalChest1 extends GT_Generic_Block implements ITileEntityProvider {
-
     public GT_Block_MetalChest1() {
         super(GT_Item_MetalChest1.class, "gt.block.storage.metalchest", GT_Material_Casings.INSTANCE);
         setStepSound(soundTypeMetal);
@@ -171,7 +171,8 @@ public class GT_Block_MetalChest1 extends GT_Generic_Block implements ITileEntit
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister aIconRegister) {}
+    public void registerBlockIcons(IIconRegister aIconRegister) {
+    }
 
     @Override
     @SideOnly(Side.CLIENT)
@@ -185,36 +186,12 @@ public class GT_Block_MetalChest1 extends GT_Generic_Block implements ITileEntit
 
     @Override
     public IIcon getIcon(int ordinalSide, int aMeta) {
-        if ((aMeta >= 0) && (aMeta < 16)) {
-            switch (aMeta) {
-                case 10 -> {
-                    return Textures.BlockIcons.MACHINE_BRONZEPLATEDBRICKS.getIcon();
-                }
-                case 11 -> {
-                    return Textures.BlockIcons.MACHINE_HEATPROOFCASING.getIcon();
-                }
-                case 12 -> {
-                    return Textures.BlockIcons.MACHINE_DIM_TRANS_CASING.getIcon();
-                }
-                case 13 -> {
-                    return Textures.BlockIcons.MACHINE_DIM_INJECTOR.getIcon();
-                }
-                case 14 -> {
-                    return Textures.BlockIcons.MACHINE_DIM_BRIDGE.getIcon();
-                }
-                case 15 -> {
-                    return Textures.BlockIcons.MACHINE_COIL_SUPERCONDUCTOR.getIcon();
-                }
-            }
-            if (ordinalSide == 0) {
-                return Textures.BlockIcons.MACHINECASINGS_BOTTOM[aMeta].getIcon();
-            }
-            if (ordinalSide == 1) {
-                return Textures.BlockIcons.MACHINECASINGS_TOP[aMeta].getIcon();
-            }
-            return Textures.BlockIcons.MACHINECASINGS_SIDE[aMeta].getIcon();
-        }
-        return Textures.BlockIcons.MACHINE_CASING_SOLID_STEEL.getIcon();
+        return null;
+    }
+
+    @Override
+    public int getRenderType() {
+        return 22;
     }
 
     @Override
@@ -260,19 +237,22 @@ public class GT_Block_MetalChest1 extends GT_Generic_Block implements ITileEntit
     }
 
     // Rendering
-
     @SideOnly(Side.CLIENT)
-    private static MetalChest.MultiTileEntityRendererChest RENDERER;
+    private static GT_RenderChest RENDERER;
 
     @SideOnly(Side.CLIENT)
     public void onStorageRegistration(Block block, int aMeta) {
         ClientRegistry.bindTileEntitySpecialRenderer(
             MetaTileEntityStorage.class,
-            RENDERER = new MetalChest.MultiTileEntityRendererChest());
-
+            RENDERER = new GT_RenderChest());
     }
 
     private static final float minX = 0.0625F, minY = 0F, minZ = 0.0625F, maxX = 0.9375F, maxY = 0.875F, maxZ = 0.9375F;
+
+    @Override
+    public boolean isBlockNormalCube() {
+        return false;
+    }
 
     @Override
     public boolean isNormalCube(IBlockAccess aWorld, int aX, int aY, int aZ) {

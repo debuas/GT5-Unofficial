@@ -6,6 +6,7 @@ import gregtech.api.enums.Textures;
 import gregtech.common.render.GT_RenderChest;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -194,6 +195,8 @@ public class GT_Block_MetalChest1 extends GT_Generic_Block implements ITileEntit
         return 22;
     }
 
+
+
     @Override
     public int colorMultiplier(IBlockAccess aWorld, int aX, int aY, int aZ) {
         return aWorld.getBlockMetadata(aX, aY, aZ) > 9 ? super.colorMultiplier(aWorld, aX, aY, aZ)
@@ -248,16 +251,6 @@ public class GT_Block_MetalChest1 extends GT_Generic_Block implements ITileEntit
     }
 
     private static final float minX = 0.0625F, minY = 0F, minZ = 0.0625F, maxX = 0.9375F, maxY = 0.875F, maxZ = 0.9375F;
-
-    @Override
-    public boolean isBlockNormalCube() {
-        return false;
-    }
-
-    @Override
-    public boolean isNormalCube(IBlockAccess aWorld, int aX, int aY, int aZ) {
-        return false;
-    }
 
     @Override
     public boolean renderAsNormalBlock() {

@@ -45,7 +45,7 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
 {
 
     protected int storageSize = 27;
-    protected int default_cols = 9;
+    protected int default_columns = 9;
     protected byte storedColor;
     protected ForgeDirection frontFacing;
     protected ForgeDirection facing;
@@ -439,7 +439,7 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
         // Rendered Storage Inventory size will atleast be 1 slot heigh + border at max 6 slots height + border
         return Math.max(
             (18 * 4 + 3 * 7 + 18),
-            (18 * 4 + 3 * 7 + (Math.max(1, Math.min(6, this.storageSize / this.default_cols))) * 18 + 4));
+            (18 * 4 + 3 * 7 + (Math.max(1, Math.min(6, this.storageSize / this.default_columns))) * 18 + 4));
     }
 
     // Texture

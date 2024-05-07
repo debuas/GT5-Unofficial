@@ -2,11 +2,6 @@ package gregtech.common.blocks;
 
 import java.util.List;
 
-import cpw.mods.fml.client.registry.ClientRegistry;
-import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
-import gregtech.api.metatileentity.MetaTileEntityStorage;
-import gregtech.api.multitileentity.storage.MetalChest;
-import gregtech.api.util.GT_Utility;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -25,14 +20,19 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
+import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.ItemList;
 import gregtech.api.enums.Materials;
 import gregtech.api.enums.Textures;
+import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.items.GT_Generic_Block;
+import gregtech.api.metatileentity.MetaTileEntityStorage;
+import gregtech.api.multitileentity.storage.MetalChest;
 import gregtech.api.util.GT_LanguageManager;
+import gregtech.api.util.GT_Utility;
 import gregtech.common.tileentities.storage.GT_MetaTileEntity_MetalChest;
 
 /**
@@ -232,7 +232,8 @@ public class GT_Block_MetalChest1 extends GT_Generic_Block implements ITileEntit
     }
 
     @Override
-    public boolean onBlockActivated(World aWorld, int aX, int aY, int aZ, EntityPlayer aPlayer, int ordinalSide, float aOffsetX, float aOffsetY, float aOffsetZ) {
+    public boolean onBlockActivated(World aWorld, int aX, int aY, int aZ, EntityPlayer aPlayer, int ordinalSide,
+        float aOffsetX, float aOffsetY, float aOffsetZ) {
         final TileEntity tTileEntity = aWorld.getTileEntity(aX, aY, aZ);
         if (tTileEntity == null) {
             return false;
@@ -265,7 +266,9 @@ public class GT_Block_MetalChest1 extends GT_Generic_Block implements ITileEntit
 
     @SideOnly(Side.CLIENT)
     public void onStorageRegistration(Block block, int aMeta) {
-        ClientRegistry.bindTileEntitySpecialRenderer(MetaTileEntityStorage.class, RENDERER = new MetalChest.MultiTileEntityRendererChest());
+        ClientRegistry.bindTileEntitySpecialRenderer(
+            MetaTileEntityStorage.class,
+            RENDERER = new MetalChest.MultiTileEntityRendererChest());
 
     }
 

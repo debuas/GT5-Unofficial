@@ -1,18 +1,12 @@
 package gregtech.api.metatileentity;
 
+import static gregtech.GT_Mod.GT_FML_LOGGER;
+
 import java.util.UUID;
 import java.util.function.Supplier;
 
 import javax.annotation.Nonnull;
 
-import gregtech.GT_Mod;
-import gregtech.api.GregTech_API;
-import gregtech.api.enums.ItemList;
-import gregtech.api.enums.SoundResource;
-import gregtech.api.gui.modularui.GT_UIInfos;
-import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
-import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
-import gregtech.api.util.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -20,27 +14,33 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
-
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.gtnewhorizons.modularui.api.screen.UIBuildContext;
 
+import gregtech.GT_Mod;
+import gregtech.api.GregTech_API;
 import gregtech.api.enums.InventoryType;
+import gregtech.api.enums.ItemList;
+import gregtech.api.enums.SoundResource;
 import gregtech.api.gui.GUIHost;
 import gregtech.api.gui.GUIProvider;
+import gregtech.api.gui.modularui.GT_UIInfos;
+import gregtech.api.interfaces.metatileentity.IMetaTileEntity;
 import gregtech.api.interfaces.modularui.IGetGUITextureSet;
+import gregtech.api.interfaces.tileentity.IGregTechTileEntity;
 import gregtech.api.logic.ItemInventoryLogic;
 import gregtech.api.logic.interfaces.ItemInventoryLogicHost;
+import gregtech.api.util.*;
 import gregtech.common.gui.InventoryGUIProvider;
 
-import static gregtech.GT_Mod.GT_FML_LOGGER;
-
 public abstract class MetaTileEntityStorage extends BaseTileEntity
-    implements ItemInventoryLogicHost, GUIHost, IGetGUITextureSet , IGregTechTileEntity
+    implements ItemInventoryLogicHost, GUIHost, IGetGUITextureSet, IGregTechTileEntity
 
 {
 
@@ -51,11 +51,13 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
     protected ForgeDirection facing;
 
     protected GUIProvider<?> guiProvider = createGUIProvider();
-    protected IGregTechTileEntity mBaseMetaTileEntity ;
+    protected IGregTechTileEntity mBaseMetaTileEntity;
     protected IMetaTileEntity mMetaTileEntity;
+
     protected Supplier<Boolean> getValidator() {
         return () -> !this.isDead();
     }
+
     protected int mId;
     @Nonnull
     protected ItemInventoryLogic storage;
@@ -86,7 +88,6 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
         }
         return indexes;
     }
-
 
     @Override
     public boolean canExtractItem(int ignoredSlot, ItemStack ignoredItem, int side) {
@@ -145,10 +146,11 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
         }
 
     }
+
     @Override
     public void setMetaTileEntity(IMetaTileEntity aMetaTileEntity) {
         if (aMetaTileEntity instanceof MetaTileEntityStorage || aMetaTileEntity == null)
-            mMetaTileEntity =  aMetaTileEntity;
+            mMetaTileEntity = aMetaTileEntity;
         else {
             GT_FML_LOGGER.error(
                 "Unknown meta tile entity set! Class {}, inventory name {}.",
@@ -192,7 +194,7 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
                     if (GT_Utility.isStackInList(tCurrentItem, GregTech_API.sWrenchList)) {
                         if (aPlayer.isSneaking() && mBaseMetaTileEntity instanceof MetaTileEntityStorage
                             && ((MetaTileEntityStorage) mBaseMetaTileEntity)
-                            .setMainFacing(GT_Utility.determineWrenchingSide(side, aX, aY, aZ))) {
+                                .setMainFacing(GT_Utility.determineWrenchingSide(side, aX, aY, aZ))) {
                             GT_ModHandler.damageOrDechargeItem(tCurrentItem, 1, 1000, aPlayer);
                             GT_Utility.sendSoundToPlayers(
                                 worldObj,
@@ -210,16 +212,16 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
                             aY,
                             aZ,
                             tCurrentItem)) {
-                            GT_ModHandler.damageOrDechargeItem(tCurrentItem, 1, 1000, aPlayer);
-                            GT_Utility.sendSoundToPlayers(
-                                worldObj,
-                                SoundResource.IC2_TOOLS_WRENCH,
-                                1.0F,
-                                -1,
-                                xCoord,
-                                yCoord,
-                                zCoord);
-                        }
+                                GT_ModHandler.damageOrDechargeItem(tCurrentItem, 1, 1000, aPlayer);
+                                GT_Utility.sendSoundToPlayers(
+                                    worldObj,
+                                    SoundResource.IC2_TOOLS_WRENCH,
+                                    1.0F,
+                                    -1,
+                                    xCoord,
+                                    yCoord,
+                                    zCoord);
+                            }
                         return true;
                     }
 
@@ -249,75 +251,72 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
                         return true;
                     }
 
-
-                    /* //Cover Logic
-                    ForgeDirection coverSide = side;
-                    if (getCoverIDAtSide(side) == 0) coverSide = GT_Utility.determineWrenchingSide(side, aX, aY, aZ);
-                    if (getCoverIDAtSide(coverSide) == 0) {
-                        if (false %%GT_Utility.isStackInList(tCurrentItem, GregTech_API.sCovers.keySet())) {
-                            final GT_CoverBehaviorBase<?> coverBehavior = GregTech_API
-                                .getCoverBehaviorNew(tCurrentItem);
-                            if (coverBehavior.isCoverPlaceable(coverSide, tCurrentItem, this)
-                                && mMetaTileEntity.allowCoverOnSide(coverSide, new GT_ItemStack(tCurrentItem))) {
-
-                                setCoverItemAtSide(coverSide, tCurrentItem);
-                                coverBehavior.onPlayerAttach(aPlayer, tCurrentItem, this, coverSide);
-
-                                if (!aPlayer.capabilities.isCreativeMode) tCurrentItem.stackSize--;
-                                GT_Utility.sendSoundToPlayers(
-                                    worldObj,
-                                    SoundResource.IC2_TOOLS_WRENCH,
-                                    1.0F,
-                                    -1,
-                                    xCoord,
-                                    yCoord,
-                                    zCoord);
-                                sendClientData();
-                            }
-                            return true;
-                        }
-                    } else {
-                        if (GT_Utility.isStackInList(tCurrentItem, GregTech_API.sCrowbarList)) {
-                            if (GT_ModHandler.damageOrDechargeItem(tCurrentItem, 1, 1000, aPlayer)) {
-                                GT_Utility.sendSoundToPlayers(
-                                    worldObj,
-                                    SoundResource.RANDOM_BREAK,
-                                    1.0F,
-                                    -1,
-                                    xCoord,
-                                    yCoord,
-                                    zCoord);
-                                dropCover(coverSide, side, false);
-                            }
-                            return true;
-                        } else if (GT_Utility.isStackInList(tCurrentItem, GregTech_API.sJackhammerList)) {
-                            // Configuration of delicate electronics calls for a tool with precision and subtlety.
-                            if (GT_ModHandler.damageOrDechargeItem(tCurrentItem, 1, 1000, aPlayer)) {
-                                final CoverInfo info = getCoverInfoAtSide(coverSide);
-                                if (info != CoverInfo.EMPTY_INFO) {
-                                    final GT_CoverBehaviorBase<?> behavior = info.getCoverBehavior();
-                                    if (behavior.allowsTickRateAddition()) {
-                                        info.onCoverJackhammer(aPlayer);
-                                        GT_Utility.sendSoundToPlayers(
-                                            worldObj,
-                                            SoundResource.IC2_TOOLS_DRILL_DRILL_SOFT,
-                                            1.0F,
-                                            1,
-                                            xCoord,
-                                            yCoord,
-                                            zCoord);
-
-                                    } else {
-                                        GT_Utility.sendChatToPlayer(
-                                            aPlayer,
-                                            StatCollector.translateToLocal("gt.cover.info.chat.tick_rate_not_allowed"));
-                                    }
-                                    return true;
-                                }
-                            }
-                        }
-                    }
-                    */
+                    /*
+                     * //Cover Logic
+                     * ForgeDirection coverSide = side;
+                     * if (getCoverIDAtSide(side) == 0) coverSide = GT_Utility.determineWrenchingSide(side, aX, aY, aZ);
+                     * if (getCoverIDAtSide(coverSide) == 0) {
+                     * if (false %%GT_Utility.isStackInList(tCurrentItem, GregTech_API.sCovers.keySet())) {
+                     * final GT_CoverBehaviorBase<?> coverBehavior = GregTech_API
+                     * .getCoverBehaviorNew(tCurrentItem);
+                     * if (coverBehavior.isCoverPlaceable(coverSide, tCurrentItem, this)
+                     * && mMetaTileEntity.allowCoverOnSide(coverSide, new GT_ItemStack(tCurrentItem))) {
+                     * setCoverItemAtSide(coverSide, tCurrentItem);
+                     * coverBehavior.onPlayerAttach(aPlayer, tCurrentItem, this, coverSide);
+                     * if (!aPlayer.capabilities.isCreativeMode) tCurrentItem.stackSize--;
+                     * GT_Utility.sendSoundToPlayers(
+                     * worldObj,
+                     * SoundResource.IC2_TOOLS_WRENCH,
+                     * 1.0F,
+                     * -1,
+                     * xCoord,
+                     * yCoord,
+                     * zCoord);
+                     * sendClientData();
+                     * }
+                     * return true;
+                     * }
+                     * } else {
+                     * if (GT_Utility.isStackInList(tCurrentItem, GregTech_API.sCrowbarList)) {
+                     * if (GT_ModHandler.damageOrDechargeItem(tCurrentItem, 1, 1000, aPlayer)) {
+                     * GT_Utility.sendSoundToPlayers(
+                     * worldObj,
+                     * SoundResource.RANDOM_BREAK,
+                     * 1.0F,
+                     * -1,
+                     * xCoord,
+                     * yCoord,
+                     * zCoord);
+                     * dropCover(coverSide, side, false);
+                     * }
+                     * return true;
+                     * } else if (GT_Utility.isStackInList(tCurrentItem, GregTech_API.sJackhammerList)) {
+                     * // Configuration of delicate electronics calls for a tool with precision and subtlety.
+                     * if (GT_ModHandler.damageOrDechargeItem(tCurrentItem, 1, 1000, aPlayer)) {
+                     * final CoverInfo info = getCoverInfoAtSide(coverSide);
+                     * if (info != CoverInfo.EMPTY_INFO) {
+                     * final GT_CoverBehaviorBase<?> behavior = info.getCoverBehavior();
+                     * if (behavior.allowsTickRateAddition()) {
+                     * info.onCoverJackhammer(aPlayer);
+                     * GT_Utility.sendSoundToPlayers(
+                     * worldObj,
+                     * SoundResource.IC2_TOOLS_DRILL_DRILL_SOFT,
+                     * 1.0F,
+                     * 1,
+                     * xCoord,
+                     * yCoord,
+                     * zCoord);
+                     * } else {
+                     * GT_Utility.sendChatToPlayer(
+                     * aPlayer,
+                     * StatCollector.translateToLocal("gt.cover.info.chat.tick_rate_not_allowed"));
+                     * }
+                     * return true;
+                     * }
+                     * }
+                     * }
+                     * }
+                     */
                     // End item != null
                 } else if (aPlayer.isSneaking()) { // Sneak click, no tool -> open cover config if possible.
                     side = (getCoverIDAtSide(side) == 0) ? GT_Utility.determineWrenchingSide(side, aX, aY, aZ) : side;
@@ -377,16 +376,18 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
         return false;
     }
 
-    private boolean onWrenchRightClick(ForgeDirection side, ForgeDirection forgeDirection, EntityPlayer aPlayer, float aX, float aY, float aZ, ItemStack tCurrentItem) {
-    return false;
+    private boolean onWrenchRightClick(ForgeDirection side, ForgeDirection forgeDirection, EntityPlayer aPlayer,
+        float aX, float aY, float aZ, ItemStack tCurrentItem) {
+        return false;
     }
 
-    private boolean onScrewdriverRightClick(ForgeDirection side, EntityPlayer aPlayer, float aX, float aY, float aZ, ItemStack tCurrentItem) {
+    private boolean onScrewdriverRightClick(ForgeDirection side, EntityPlayer aPlayer, float aX, float aY, float aZ,
+        ItemStack tCurrentItem) {
         return false;
     }
 
     public boolean onRightclick(IGregTechTileEntity aBaseMetaTileEntity, EntityPlayer aPlayer, ForgeDirection side,
-                                float aX, float aY, float aZ) {
+        float aX, float aY, float aZ) {
         return onRightclick(aBaseMetaTileEntity, aPlayer);
     }
 
@@ -405,8 +406,6 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
         GT_Utility.sendChatToPlayer(aPlayer, "No free Side!");
         return true;
     }
-
-
 
     // Enet False
 
@@ -446,28 +445,45 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
 
     // IGregtechTileEntity
 
-    public int getErrorDisplayID() {return 0;}
-    public void setErrorDisplayID(int aErrorID){};
-    public int getMetaTileID(){return mId;}
-    public int setMetaTileID(short aID){mId = (int) aID;return mId;}
+    public int getErrorDisplayID() {
+        return 0;
+    }
+
+    public void setErrorDisplayID(int aErrorID) {};
+
+    public int getMetaTileID() {
+        return mId;
+    }
+
+    public int setMetaTileID(short aID) {
+        mId = (int) aID;
+        return mId;
+    }
 
     @Override
     public String getOwnerName() {
         return "";
     }
+
     @Override
     public UUID getOwnerUuid() {
         return null;
     }
-    public String setOwnerName(String aName){return aName;};
+
+    public String setOwnerName(String aName) {
+        return aName;
+    };
+
     @Override
     public void onEntityCollidedWithBlock(World aWorld, int aX, int aY, int aZ, Entity collider) {
 
     }
+
     @Override
     public IMetaTileEntity getMetaTileEntity() {
         return mMetaTileEntity;
     }
+
     @Override
     public void issueTextureUpdate() {
 
@@ -565,7 +581,7 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
 
     }
 
-    //GearEnergyTile
+    // GearEnergyTile
 
     public boolean acceptsRotationalEnergy(ForgeDirection side) {
         return false;
@@ -586,7 +602,6 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
     public FluidStack drain(ForgeDirection from, int maxDrain, boolean doDrain) {
         return null;
     }
-
 
     public boolean canFill(ForgeDirection from, Fluid fluid) {
         return false;
@@ -694,7 +709,9 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
      * returns the amount of electricity containable in this Block, in EU units!
      */
     @Override
-    public long getEUCapacity(){return 0;}
+    public long getEUCapacity() {
+        return 0;
+    }
 
     /**
      * if the Inventory of this TileEntity got modified this tick
@@ -702,9 +719,6 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
     public boolean hasInventoryBeenModified() {
         return false;
     }
-
-
-
 
     /**
      * if this is just a Holoslot
@@ -718,7 +732,7 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
      * above.
      *
      * @return true if aStack == null, then false if aIndex is out of bounds, then false if aStack cannot be added, and
-     * then true if aStack has been added
+     *         then true if aStack has been added
      */
     public boolean addStackToSlot(int aIndex, ItemStack aStack) {
         return false;
@@ -729,7 +743,7 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
      * the Function above.
      *
      * @return true if aStack == null, then false if aIndex is out of bounds, then false if aStack cannot be added, and
-     * then true if aStack has been added
+     *         then true if aStack has been added
      */
     public boolean addStackToSlot(int aIndex, ItemStack aStack, int aAmount) {
         return false;
@@ -1002,6 +1016,5 @@ public abstract class MetaTileEntityStorage extends BaseTileEntity
     public boolean isValidFacing(ForgeDirection side) {
         return true;
     }
-
 
 }

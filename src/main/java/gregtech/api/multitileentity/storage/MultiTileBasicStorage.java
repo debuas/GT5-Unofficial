@@ -1,5 +1,6 @@
 package gregtech.api.multitileentity.storage;
 
+import com.gtnewhorizons.modularui.api.UIInfos;
 import com.gtnewhorizons.modularui.api.screen.ModularWindow;
 import com.gtnewhorizons.modularui.api.screen.UIBuildContext;
 import gregtech.api.enums.InventoryType;
@@ -113,6 +114,14 @@ public abstract class MultiTileBasicStorage extends TickableMultiTileEntity impl
     //public boolean hasGui(ForgeDirection side) {
     //return true;
     //}
+
+
+    @Override
+    protected boolean onRightClick(EntityPlayer player, ForgeDirection side, ForgeDirection wrenchSide) {
+            if (!shouldOpen()) return false;
+            UIInfos.openClientUI(player, this::createWindow);
+            return true;
+    }
 
     @Override
     public int getSizeInventory() {

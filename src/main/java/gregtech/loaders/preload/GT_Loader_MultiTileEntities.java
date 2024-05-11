@@ -10,6 +10,7 @@ import gregtech.api.enums.Materials;
 import gregtech.api.multitileentity.MultiTileEntityRegistry;
 import gregtech.api.multitileentity.multiblock.base.WallShareablePart;
 import gregtech.api.multitileentity.multiblock.casing.BasicCasing;
+import gregtech.api.multitileentity.storage.MetalChest;
 import gregtech.common.tileentities.casings.functional.Conveyor;
 import gregtech.common.tileentities.casings.functional.Emitter;
 import gregtech.common.tileentities.casings.functional.FieldGenerator;
@@ -39,7 +40,9 @@ public class GT_Loader_MultiTileEntities implements Runnable {
     public static final String UPGRADE_CASING_REGISTRY_NAME = "gt.multitileentity.upgrade.casings";
     public static final String CASING_REGISTRY_NAME = "gt.multitileentity.casings";
     public static final String MACHINE_REGISTRY_NAME = "gt.multitileentity.controllers";
+    public static final String STORAGE_REGISTRY_NAME = "gt.multitileentity.storage";
     public static final MultiTileEntityRegistry MACHINE_REGISTRY = new MultiTileEntityRegistry(MACHINE_REGISTRY_NAME);
+    public static final MultiTileEntityRegistry STORAGE_REGISTRY = new MultiTileEntityRegistry(STORAGE_REGISTRY_NAME);
     public static final MultiTileEntityRegistry CASING_REGISTRY = new MultiTileEntityRegistry(CASING_REGISTRY_NAME);
     public static final MultiTileEntityRegistry COMPONENT_CASING_REGISTRY = new MultiTileEntityRegistry(
         COMPONENT_CASING_REGISTRY_NAME);
@@ -53,6 +56,7 @@ public class GT_Loader_MultiTileEntities implements Runnable {
         registerMachines();
         registerCasings();
         registerComponentCasings();
+        registerStorage();
     }
 
     private static void registerMachines() {
@@ -1403,4 +1407,34 @@ public class GT_Loader_MultiTileEntities implements Runnable {
             .textureFolder("fieldGenerator")
             .register();
     }
+
+    // Storage registration for testing purposes
+    // may change later
+    private static void registerStorage() {
+        STORAGE_REGISTRY.create(1, MetalChest.class)
+            .material(Materials.Iron)
+            .textureFolder("MetalChest")
+            .register();
+        STORAGE_REGISTRY.create(2, MetalChest.class)
+            .material(Materials.Gold)
+            .textureFolder("MetalChest")
+            .setNBT("gt.inventory.storage.size", 54)
+            .register();
+        STORAGE_REGISTRY.create(3, MetalChest.class)
+            .material(Materials.Platinum)
+            .textureFolder("MetalChest")
+            .setNBT("gt.inventory.storage.size", 69)
+            .register();
+        STORAGE_REGISTRY.create(4, MetalChest.class)
+            .material(Materials.Lead)
+            .textureFolder("MetalChest")
+            .setNBT("gt.inventory.storage.size", 9)
+            .register();
+        STORAGE_REGISTRY.create(5, MetalChest.class)
+            .material(Materials.GraniteRed)
+            .textureFolder("MetalChest")
+            .setNBT("gt.inventory.storage.size", 1)
+            .register();
+    }
+
 }

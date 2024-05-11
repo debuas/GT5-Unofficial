@@ -1,6 +1,7 @@
 package gregtech.api.multitileentity;
 
 import static gregtech.GT_Mod.GT_FML_LOGGER;
+import static gregtech.GT_Mod.gregtechproxy;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,6 +11,17 @@ import java.util.Map;
 
 import javax.annotation.Nonnull;
 
+import gregtech.api.multitileentity.interfaces.IMultiTileEntity.IMTE_OnRegistration;
+import gregtech.api.multitileentity.interfaces.IMultiTileEntity.IMTE_OnRegistrationClient;
+import gregtech.api.multitileentity.interfaces.IMultiTileEntity.IMTE_OnRegistrationFirst;
+import gregtech.api.multitileentity.interfaces.IMultiTileEntity.IMTE_OnRegistrationFirstClient;
+import gregtech.api.multitileentity.interfaces.IMultiTileEntity.IMTE_OnRegistrationFirstOfRegister;
+import gregtech.api.multitileentity.interfaces.IMultiTileEntity.IMTE_OnRegistrationFirstOfRegisterClient;
+
+
+import gregtech.api.recipe.RecipeMap;
+import gregtech.api.recipe.RecipeMaps;
+import gregtech.api.util.GT_Shaped_Recipe;
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -140,8 +152,25 @@ public class MultiTileEntityRegistry {
         }
 
         registry.put(classContainer.getMetaId(), classContainer);
-        registrations.add(classContainer);
         lastRegisteredId = classContainer.getMetaId();
+        registrations.add(classContainer);
+
+        if (registeredTileEntities.add(classContainer.getOriginalTileEntity().getClass())) {
+            if (classContainer.getOriginalTileEntity() instanceof IMTE_OnRegistrationFirst) ((IMTE_OnRegistrationFirst) classContainer.getOriginalTileEntity()).onRegistrationFirst(this, classContainer.getMetaId());
+            if (gregtechproxy.isClientSide() && classContainer.getOriginalTileEntity() instanceof IMTE_OnRegistrationFirstClient) ((IMTE_OnRegistrationFirstClient) classContainer.getOriginalTileEntity()).onRegistrationFirstClient(this, classContainer.getMetaId());
+        }
+        if (registeredTileEntities.add(classContainer.getOriginalTileEntity().getClass())) {
+            if (classContainer.getOriginalTileEntity() instanceof IMTE_OnRegistrationFirstOfRegister)
+                ((IMTE_OnRegistrationFirstOfRegister) classContainer.getOriginalTileEntity()).onRegistrationFirstOfRegister(this, classContainer.getMetaId());
+            if (classContainer.getOriginalTileEntity() instanceof IMTE_OnRegistrationFirstOfRegisterClient)
+                ((IMTE_OnRegistrationFirstOfRegisterClient) classContainer.getOriginalTileEntity()).onRegistrationFirstOfRegisterClient(this, classContainer.getMetaId());
+        }
+        if (classContainer.getOriginalTileEntity() instanceof IMTE_OnRegistration) {
+            ((IMTE_OnRegistration) classContainer.getOriginalTileEntity()).onRegistration(this, classContainer.getMetaId());
+        }
+        if (gregtechproxy.isClientSide() && classContainer.getOriginalTileEntity() instanceof IMTE_OnRegistrationClient) {
+            ((IMTE_OnRegistrationClient) classContainer.getOriginalTileEntity()).onRegistrationClient(this, classContainer.getMetaId());
+        }
 
         if (registeredTileEntities.add(classContainer.getClazz())) {
             GameRegistry.registerTileEntity(
@@ -154,12 +183,16 @@ public class MultiTileEntityRegistry {
 
     public int lastRegisteredId = GT_Values.W;
 
-    public ItemStack getItem(int aID) {
-        return getItem(aID, 1, null);
+    public ItemStack getItem() {
+        return getItem(lastRegisteredId, 1, null);
     }
 
-    public ItemStack getItem(int aID, NBTTagCompound aNBT) {
-        return getItem(aID, 1, aNBT);
+    public ItemStack getItem(NBTTagCompound aNBT) {
+        return getItem(lastRegisteredId, 1, aNBT);
+    }
+
+    public ItemStack getItem(int aID) {
+        return getItem(aID, 1, null);
     }
 
     public ItemStack getItem(int aID, long aAmount) {

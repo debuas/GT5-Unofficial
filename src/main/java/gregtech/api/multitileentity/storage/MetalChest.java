@@ -3,11 +3,15 @@ package gregtech.api.multitileentity.storage;
 import cpw.mods.fml.client.registry.ClientRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import gregtech.api.enums.GT_Values.NBT;
+import gregtech.api.enums.Materials;
 import gregtech.api.enums.Mods;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.multitileentity.MultiTileEntityRegistry;
 import gregtech.api.render.TextureFactory;
+import gregtech.api.multitileentity.interfaces.IMultiTileEntity.IMTE_OnRegistrationClient;
+import gregtech.api.multitileentity.interfaces.IMultiTileEntity.IMTE_OnRegistrationFirstClient;
 
 import static gregtech.api.enums.Mods.GregTech;
 import static org.lwjgl.opengl.GL11.*;
@@ -34,29 +38,18 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.ForgeDirection;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import static org.lwjgl.opengl.GL11.*;
-import static org.lwjgl.opengl.GL12.GL_RESCALE_NORMAL;
-
 
 //TODO("Get the chest Model working")
 //TODO("Adjust chest texture to align with the Model")
 //TODO("Work on the chest open animation")
 //TODO("Play open/close sound for chest")
 
-public class MetalChest extends MultiTileBasicStorage {
+public class MetalChest extends MultiTileBasicStorage implements IMTE_OnRegistrationFirstClient, IMTE_OnRegistrationClient {
 
     private static final float minX = 0.0625F, minY = 0F, minZ = 0.0625F, maxX = 0.9375F, maxY = 0.875F, maxZ = 0.9375F;
     private int RGBa;
-
-    @Override public AxisAlignedBB getCollisionBoundingBoxFromPool() {return box(minX, minY, minZ, maxX, maxY, maxZ);}
-    @Override public AxisAlignedBB getSelectedBoundingBoxFromPool () {return box(minX, minY, minZ, maxX, maxY, maxZ);}
-    @Override public void setBlockBoundsBasedOnState(Block aBlock) {box(aBlock, minX, minY, minZ, maxX, maxY, maxZ);}
-    private static String mTextureName;
+    public Materials material = Materials._NULL;
+    public String mTextureName = "", mDungeonLootName = "";
     public String chestType = "MetalChest";
 
     @Override
@@ -70,17 +63,14 @@ public class MetalChest extends MultiTileBasicStorage {
     private static MultiTileEntityRendererChest RENDERER;
 
     @Override
-    public void onRegistrationFirstClient(MultiTileEntityRegistry registry, short id) {
-        super.onRegistrationFirstClient(registry, id);
+    public void onRegistrationFirstClient(MultiTileEntityRegistry registry, int id) {
         ClientRegistry.bindTileEntitySpecialRenderer(getClass(), RENDERER = new MultiTileEntityRendererChest());
     }
 
     @Override
-    public void onRegistrationClient(MultiTileEntityRegistry registry, short id) {
-        super.onRegistrationClient(registry, id);
-        ClientRegistry.bindTileEntitySpecialRenderer(getClass(), RENDERER = new MultiTileEntityRendererChest());
-        MultiTileEntityRendererChest.mResources.put(
-            MetalChest.mTextureName,
+    public void onRegistrationClient(MultiTileEntityRegistry registry, int id) {
+        RENDERER.mResources.put(
+            mTextureName,
             new ResourceLocation[] {
                 new ResourceLocation(GregTech.ID, "textures/model/metatileentity/" + chestType + "/metalchest.colored.png"),
                 new ResourceLocation(GregTech.ID, "textures/model/metatileentity/" + chestType + "/metalchest.plain.png") });
@@ -92,13 +82,15 @@ public class MetalChest extends MultiTileBasicStorage {
     }
 
     @Override
-    public void setLightValue(byte aLightValue) {
-
+    public void writeToNBT(NBTTagCompound aNBT) {
+        super.writeToNBT(aNBT);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound aNBT) {
         super.readFromNBT(aNBT);
+        if (aNBT.hasKey(NBT.MATERIAL)) material = Materials.get(aNBT.getString(NBT.MATERIAL));
+        if (aNBT.hasKey(NBT.COLOR)) RGBa = aNBT.getInteger(NBT.COLOR);
     }
 
     @Override
@@ -106,11 +98,13 @@ public class MetalChest extends MultiTileBasicStorage {
         return "gt.multitileentity.storage.metalchest";
     }
 
+    /*
     @Override
     protected void addDebugInfo(EntityPlayer aPlayer, int aLogLevel, ArrayList<String> tList) {
         super.addDebugInfo(aPlayer, aLogLevel, tList);
         tList.add("Material : " + this.material );
     }
+    */
 
     // Textures
 
@@ -176,35 +170,6 @@ public class MetalChest extends MultiTileBasicStorage {
         backOverlayTexture = canonicalEntity.backOverlayTexture;
         frontOverlayTexture = canonicalEntity.frontOverlayTexture;
     }
-
-
-    @Override
-    public ITexture getTexture(ForgeDirection side) {
-        if (getFacing() == side) {
-            return TextureFactory.of(baseTexture, frontOverlayTexture);
-        }
-
-        if (getFacing().getOpposite() == side) {
-            return TextureFactory.of(baseTexture, backOverlayTexture);
-        }
-
-        if (side == ForgeDirection.UP) {
-            return TextureFactory.of(baseTexture, topOverlayTexture);
-        }
-
-        if (side == ForgeDirection.DOWN) {
-            return TextureFactory.of(baseTexture, bottomOverlayTexture);
-        }
-
-        if (getFacing().getRotation(ForgeDirection.DOWN) == side) {
-            return TextureFactory.of(baseTexture, rightOverlayTexture);
-        } else {
-            return TextureFactory.of(baseTexture, leftOverlayTexture);
-        }
-    }
-
-
-
 
     @SideOnly(Side.CLIENT)
     public static class MultiTileEntityRendererChest extends TileEntitySpecialRenderer {

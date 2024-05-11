@@ -40,7 +40,7 @@ public abstract class MultiTileBasicStorage extends TickableMultiTileEntity impl
     }
 
 
-    @Override
+    //@Override
     public boolean useModularUI() {
         return true;
     }
@@ -149,17 +149,21 @@ public abstract class MultiTileBasicStorage extends TickableMultiTileEntity impl
             && getItemLogic(ForgeDirection.getOrientation(side), type == null ? InventoryType.Output : type) != null;
     }
 
+    /*
     @Override
     protected void addTitleToUI(ModularWindow.Builder builder) {
         super.addTitleToUI(builder);
     }
+    */
 
+    /*
     @Override
     protected void addDebugInfo(EntityPlayer aPlayer, int aLogLevel, ArrayList<String> tList) {
         tList.add("storage : " + storage.getSlots());
         tList.add("expected storage size : " + this.storageSize);
         tList.add("UI enables : " + this.useModularUI());
     }
+    */
 
     @Override
     public int getHeight() {
@@ -169,14 +173,14 @@ public abstract class MultiTileBasicStorage extends TickableMultiTileEntity impl
         return Math.max((18 * 4 + 3 * 7 + 18), (18 * 4 + 3 * 7 + (Math.max(1, Math.min(6,this.storageSize / this.default_columns))) * 18 + 4));
     }
 
-
+/*
     @Override
     public ArrayList<ItemStack> getDrops(int aFortune, boolean aSilkTouch) {
         var drops = super.getDrops(aFortune, aSilkTouch);
         drops.addAll(this.storage.getInventory().getStacks());
         return drops;
     }
-
+*/
 
 
 }

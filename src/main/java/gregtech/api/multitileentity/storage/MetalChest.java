@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import gregtech.api.util.GT_Util;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
@@ -41,6 +42,8 @@ public class MetalChest extends MultiTileBasicStorage {
 
     // protected static final float[] PX_BOX = { 0.0625F, 0, 0.0625F, 0.9375F, 0.875F, 0.9375F };
     private static final float minX = 0.0625F, minY = 0F, minZ = 0.0625F, maxX = 0.9375F, maxY = 0.875F, maxZ = 0.9375F;
+    private String mTextureName;
+
 
     @Override
     public AxisAlignedBB getCollisionBoundingBoxFromPool() {
@@ -58,8 +61,8 @@ public class MetalChest extends MultiTileBasicStorage {
     }
 
     @Override
-    public float[] shrunkBox() {
-        return PX_BOX;
+    public AxisAlignedBB getRenderBoundingBox() {
+        return super.getRenderBoundingBox();
     }
 
     @Override
@@ -112,6 +115,7 @@ public class MetalChest extends MultiTileBasicStorage {
 
     // Textures
 
+
     private ITexture baseTexture = null;
     private ITexture topOverlayTexture = null;
     private ITexture bottomOverlayTexture = null;
@@ -119,6 +123,7 @@ public class MetalChest extends MultiTileBasicStorage {
     private ITexture rightOverlayTexture = null;
     private ITexture backOverlayTexture = null;
     private ITexture frontOverlayTexture = null;
+
 
     protected byte mFacing = 3, mUsingPlayers = 0, oUsingPlayers = 0;
     protected float mLidAngle = 0, oLidAngle = 0, mHardness = 6, mResistance = 3;
@@ -212,9 +217,8 @@ public class MetalChest extends MultiTileBasicStorage {
                 double tLidAngle = 1 - (((MetalChest) aTileEntity).oLidAngle
                     + (((MetalChest) aTileEntity).mLidAngle - ((MetalChest) aTileEntity).oLidAngle) * aPartialTick);
                 tLidAngle = -(((1 - tLidAngle * tLidAngle * tLidAngle) * Math.PI) / 2);
-                // ResourceLocation[] tLocation = mResources.get(((MetalChest)aTileEntity).mTextureName);
-                // ResourceLocation[] tLocation = (MetalChest)((MetalChest) aTileEntity).getTexture()
-                // bindTexture(tLocation[0]);
+                ResourceLocation[] tLocation = mResources.get(((MetalChest)aTileEntity).mTextureName);
+                bindTexture(tLocation[0]);
                 glPushMatrix();
                 glEnable(GL_BLEND);
                 glEnable(GL_LIGHTING);
@@ -222,8 +226,8 @@ public class MetalChest extends MultiTileBasicStorage {
                 glEnable(GL_RESCALE_NORMAL);
                 glAlphaFunc(GL_GREATER, 0.1F);
                 OpenGlHelper.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, 1, 0);
-                // short[] tRGBa = UT.Code.getRGBaArray(((MetalChest)aTileEntity).rgba);
-                // glColor4f(tRGBa[0] / 255.0F, tRGBa[1] / 255.0F, tRGBa[2] / 255.0F, 1);
+                short[] tRGBa = GT_Util.getRGBaArray(((MetalChest)aTileEntity).rgba);
+                glColor4f(tRGBa[0] / 255.0F, tRGBa[1] / 255.0F, tRGBa[2] / 255.0F, 1);
                 glTranslated(aX, aY + 1, aZ + 1);
                 glScalef(1, -1, -1);
                 glTranslated(0.5, 0.5, 0.5);

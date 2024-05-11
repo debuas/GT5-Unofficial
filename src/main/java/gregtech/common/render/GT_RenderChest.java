@@ -21,9 +21,7 @@ import static org.lwjgl.opengl.GL12.GL_RESCALE_NORMAL;
 import java.util.HashMap;
 import java.util.Map;
 
-import cpw.mods.fml.client.registry.RenderingRegistry;
 import net.minecraft.client.model.ModelBase;
-import net.minecraft.client.model.ModelChest;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -45,12 +43,8 @@ public class GT_RenderChest extends TileEntitySpecialRenderer {
         mResources.put(
             GT_MetaTileEntity_MetalChest.mTextureName,
             new ResourceLocation[] {
-                new ResourceLocation(
-                    GregTech.ID,
-                    "textures/model/metatileentity/metalchest.colored.png"),
-                new ResourceLocation(
-                    GregTech.ID,
-                    "textures/model/metatileentity/metalchest.plain.png") });
+                new ResourceLocation(GregTech.ID, "textures/model/metatileentity/metalchest.colored.png"),
+                new ResourceLocation(GregTech.ID, "textures/model/metatileentity/metalchest.plain.png") });
         ClientRegistry.bindTileEntitySpecialRenderer(GT_MetaTileEntity_MetalChest.class, this);
     }
 

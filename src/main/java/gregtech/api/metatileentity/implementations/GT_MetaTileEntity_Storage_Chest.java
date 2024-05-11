@@ -38,14 +38,6 @@ public abstract class GT_MetaTileEntity_Storage_Chest extends MetaTileEntityStor
         this.amaterial = amaterial;
     }
 
-    private static final float minX = 0.0625F, minY = 0F, minZ = 0.0625F, maxX = 0.9375F, maxY = 0.875F, maxZ = 0.9375F;
-
-    @Override
-    @SideOnly(Side.CLIENT)
-    public AxisAlignedBB getRenderBoundingBox() {
-        return AxisAlignedBB.getBoundingBox(minX, minY, minZ, maxX, maxY, maxZ);
-    }
-
     @Override
     public ArrayList<ItemStack> getDrops() {
         return getStoredItems();

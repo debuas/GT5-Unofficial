@@ -2,11 +2,8 @@ package gregtech.common.blocks;
 
 import java.util.List;
 
-import gregtech.api.enums.Textures;
-import gregtech.common.render.GT_RenderChest;
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;
-import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -21,7 +18,6 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.IModelCustom;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import cpw.mods.fml.client.registry.ClientRegistry;
@@ -35,6 +31,7 @@ import gregtech.api.items.GT_Generic_Block;
 import gregtech.api.metatileentity.MetaTileEntityStorage;
 import gregtech.api.util.GT_LanguageManager;
 import gregtech.api.util.GT_Utility;
+import gregtech.common.render.GT_RenderChest;
 import gregtech.common.tileentities.storage.GT_MetaTileEntity_MetalChest;
 
 /**
@@ -42,6 +39,7 @@ import gregtech.common.tileentities.storage.GT_MetaTileEntity_MetalChest;
  * 16 subtypes at most.
  */
 public class GT_Block_MetalChest1 extends GT_Generic_Block implements ITileEntityProvider {
+
     public GT_Block_MetalChest1() {
         super(GT_Item_MetalChest1.class, "gt.block.storage.metalchest", GT_Material_Casings.INSTANCE);
         setStepSound(soundTypeMetal);
@@ -172,8 +170,7 @@ public class GT_Block_MetalChest1 extends GT_Generic_Block implements ITileEntit
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister aIconRegister) {
-    }
+    public void registerBlockIcons(IIconRegister aIconRegister) {}
 
     @Override
     @SideOnly(Side.CLIENT)
@@ -194,8 +191,6 @@ public class GT_Block_MetalChest1 extends GT_Generic_Block implements ITileEntit
     public int getRenderType() {
         return 22;
     }
-
-
 
     @Override
     public int colorMultiplier(IBlockAccess aWorld, int aX, int aY, int aZ) {
@@ -245,9 +240,7 @@ public class GT_Block_MetalChest1 extends GT_Generic_Block implements ITileEntit
 
     @SideOnly(Side.CLIENT)
     public void onStorageRegistration(Block block, int aMeta) {
-        ClientRegistry.bindTileEntitySpecialRenderer(
-            MetaTileEntityStorage.class,
-            RENDERER = new GT_RenderChest());
+        ClientRegistry.bindTileEntitySpecialRenderer(MetaTileEntityStorage.class, RENDERER = new GT_RenderChest());
     }
 
     private static final float minX = 0.0625F, minY = 0F, minZ = 0.0625F, maxX = 0.9375F, maxY = 0.875F, maxZ = 0.9375F;

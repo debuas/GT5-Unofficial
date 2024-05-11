@@ -8,6 +8,17 @@ import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.multitileentity.MultiTileEntityRegistry;
 import gregtech.api.render.TextureFactory;
+
+import static gregtech.api.enums.Mods.GregTech;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL12.GL_RESCALE_NORMAL;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
+import gregtech.api.util.GT_Util;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
@@ -39,19 +50,14 @@ import static org.lwjgl.opengl.GL12.GL_RESCALE_NORMAL;
 
 public class MetalChest extends MultiTileBasicStorage {
 
-
-    //protected static final float[] PX_BOX = { 0.0625F, 0, 0.0625F, 0.9375F, 0.875F,  0.9375F };
     private static final float minX = 0.0625F, minY = 0F, minZ = 0.0625F, maxX = 0.9375F, maxY = 0.875F, maxZ = 0.9375F;
+    private int RGBa;
+
     @Override public AxisAlignedBB getCollisionBoundingBoxFromPool() {return box(minX, minY, minZ, maxX, maxY, maxZ);}
     @Override public AxisAlignedBB getSelectedBoundingBoxFromPool () {return box(minX, minY, minZ, maxX, maxY, maxZ);}
     @Override public void setBlockBoundsBasedOnState(Block aBlock) {box(aBlock, minX, minY, minZ, maxX, maxY, maxZ);}
-
-
-    @Override
-    public float[] shrunkBox() {
-        return PX_BOX;
-    }
-
+    private static String mTextureName;
+    public String chestType = "MetalChest";
 
     @Override
     public ItemStack getAsItem() {
@@ -64,13 +70,21 @@ public class MetalChest extends MultiTileBasicStorage {
     private static MultiTileEntityRendererChest RENDERER;
 
     @Override
-    public void onRegistrationFirst(MultiTileEntityRegistry registry, short id) {
-        super.onRegistrationFirst(registry, id);
-
-            ClientRegistry.bindTileEntitySpecialRenderer(getClass(), RENDERER = new MultiTileEntityRendererChest());
-
+    public void onRegistrationFirstClient(MultiTileEntityRegistry registry, short id) {
+        super.onRegistrationFirstClient(registry, id);
+        ClientRegistry.bindTileEntitySpecialRenderer(getClass(), RENDERER = new MultiTileEntityRendererChest());
     }
 
+    @Override
+    public void onRegistrationClient(MultiTileEntityRegistry registry, short id) {
+        super.onRegistrationClient(registry, id);
+        ClientRegistry.bindTileEntitySpecialRenderer(getClass(), RENDERER = new MultiTileEntityRendererChest());
+        MultiTileEntityRendererChest.mResources.put(
+            MetalChest.mTextureName,
+            new ResourceLocation[] {
+                new ResourceLocation(GregTech.ID, "textures/model/metatileentity/" + chestType + "/metalchest.colored.png"),
+                new ResourceLocation(GregTech.ID, "textures/model/metatileentity/" + chestType + "/metalchest.plain.png") });
+    }
 
     @Override
     public String getMachineName() {
@@ -83,14 +97,8 @@ public class MetalChest extends MultiTileBasicStorage {
     }
 
     @Override
-    public void readMultiTileNBT(NBTTagCompound nbt) {
-        super.readMultiTileNBT(nbt);
-    }
-
-
-    @Override
-    public byte getComparatorValue(ForgeDirection side) {
-        return 0;
+    public void readFromNBT(NBTTagCompound aNBT) {
+        super.readFromNBT(aNBT);
     }
 
     @Override
@@ -155,8 +163,7 @@ public class MetalChest extends MultiTileBasicStorage {
     @Override
     public void copyTextures() {
         // Loading an instance
-        final TileEntity tCanonicalTileEntity = MultiTileEntityRegistry
-            .getCanonicalTileEntity(getMultiTileEntityRegistryID(), getMultiTileEntityID());
+        final TileEntity tCanonicalTileEntity = MultiTileEntityRegistry.getCachedTileEntity(getRegistryId(), getMetaId());
         if (!(tCanonicalTileEntity instanceof MetalChest)) {
             return;
         }
@@ -173,11 +180,11 @@ public class MetalChest extends MultiTileBasicStorage {
 
     @Override
     public ITexture getTexture(ForgeDirection side) {
-        if (facing == side) {
+        if (getFacing() == side) {
             return TextureFactory.of(baseTexture, frontOverlayTexture);
         }
 
-        if (facing.getOpposite() == side) {
+        if (getFacing().getOpposite() == side) {
             return TextureFactory.of(baseTexture, backOverlayTexture);
         }
 
@@ -189,7 +196,7 @@ public class MetalChest extends MultiTileBasicStorage {
             return TextureFactory.of(baseTexture, bottomOverlayTexture);
         }
 
-        if (facing.getRotation(ForgeDirection.DOWN) == side) {
+        if (getFacing().getRotation(ForgeDirection.DOWN) == side) {
             return TextureFactory.of(baseTexture, rightOverlayTexture);
         } else {
             return TextureFactory.of(baseTexture, leftOverlayTexture);
@@ -202,16 +209,15 @@ public class MetalChest extends MultiTileBasicStorage {
     @SideOnly(Side.CLIENT)
     public static class MultiTileEntityRendererChest extends TileEntitySpecialRenderer {
         private static final MultiTileEntityModelChest sModel = new MultiTileEntityModelChest();
-        public final Map<String, ResourceLocation[]> mResources = new HashMap<>();
+        public static final Map<String, ResourceLocation[]> mResources = new HashMap<>();
 
         @Override
         public void renderTileEntityAt(TileEntity aTileEntity, double aX, double aY, double aZ, float aPartialTick) {
             if (aTileEntity instanceof MetalChest) {
 
                 double tLidAngle = 1 - (((MetalChest)aTileEntity).oLidAngle + (((MetalChest)aTileEntity).mLidAngle - ((MetalChest)aTileEntity).oLidAngle) * aPartialTick); tLidAngle = -(((1 - tLidAngle*tLidAngle*tLidAngle) * Math.PI) / 2);
-                //ResourceLocation[] tLocation = mResources.get(((MetalChest)aTileEntity).mTextureName);
-                //ResourceLocation[] tLocation = (MetalChest)((MetalChest) aTileEntity).getTexture()
-                //bindTexture(tLocation[0]);
+                ResourceLocation[] tLocation = mResources.get(((MetalChest)aTileEntity).mTextureName);
+                bindTexture(tLocation[0]);
                 glPushMatrix();
                 glEnable(GL_BLEND);
                 glEnable(GL_LIGHTING);
@@ -219,8 +225,8 @@ public class MetalChest extends MultiTileBasicStorage {
                 glEnable(GL_RESCALE_NORMAL);
                 glAlphaFunc(GL_GREATER, 0.1F);
                 OpenGlHelper.glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, 1, 0);
-                //short[] tRGBa = UT.Code.getRGBaArray(((MetalChest)aTileEntity).rgba);
-                //glColor4f(tRGBa[0] / 255.0F, tRGBa[1] / 255.0F, tRGBa[2] / 255.0F, 1);
+                short[] tRGBa = GT_Util.getRGBaArray(((MetalChest)aTileEntity).RGBa);
+                glColor4f(tRGBa[0] / 255.0F, tRGBa[1] / 255.0F, tRGBa[2] / 255.0F, 1);
                 glTranslated(aX, aY + 1, aZ + 1);
                 glScalef(1, -1, -1);
                 glTranslated(0.5, 0.5, 0.5);
@@ -232,7 +238,7 @@ public class MetalChest extends MultiTileBasicStorage {
                 glEnable(GL_RESCALE_NORMAL);
                 glColor4f(1, 1, 1, 1);
 
-                //bindTexture(tLocation[1]);
+                bindTexture(tLocation[1]);
                 glPushMatrix();
                 glTranslated(aX, aY + 1, aZ + 1);
                 glScalef(1, -1, -1);

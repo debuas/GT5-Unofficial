@@ -3,17 +3,13 @@ package gregtech.api.multitileentity.storage;
 import com.gtnewhorizons.modularui.api.screen.ModularWindow;
 import com.gtnewhorizons.modularui.api.screen.UIBuildContext;
 import gregtech.api.enums.InventoryType;
-import gregtech.api.enums.Materials;
 import gregtech.api.gui.GUIHost;
 import gregtech.api.gui.GUIProvider;
-import gregtech.api.interfaces.IConfigurationCircuitSupport;
-import gregtech.api.interfaces.ITexture;
 import gregtech.api.logic.ItemInventoryLogic;
 import gregtech.api.logic.interfaces.ItemInventoryLogicHost;
 import gregtech.api.multitileentity.MultiTileEntityRegistry;
-import gregtech.api.multitileentity.base.NonTickableMultiTileEntity;
+import gregtech.api.multitileentity.base.TickableMultiTileEntity;
 import gregtech.common.gui.InventoryGUIProvider;
-import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -25,13 +21,13 @@ import javax.annotation.Nonnull;
 import java.util.ArrayList;
 
 
-public abstract class MultiTileBasicStorage extends NonTickableMultiTileEntity implements ItemInventoryLogicHost , GUIHost {
+public abstract class MultiTileBasicStorage extends TickableMultiTileEntity implements ItemInventoryLogicHost, GUIHost {
 
 
     @Nonnull
     protected int storageSize = 27;
 
-    protected int default_cols = 9;
+    protected int default_columns = 9;
 
     @Nonnull
     protected ItemInventoryLogic storage;
@@ -50,34 +46,33 @@ public abstract class MultiTileBasicStorage extends NonTickableMultiTileEntity i
     }
 
     @Override
-    public void writeMultiTileNBT(NBTTagCompound nbt) {
-        super.writeMultiTileNBT(nbt);
-
-        saveItemLogic(nbt);
+    public void writeToNBT(NBTTagCompound aNBT) {
+        super.writeToNBT(aNBT);
+        saveItemLogic(aNBT);
 
     }
 
-    protected void saveItemLogic(NBTTagCompound nbt) {
+    protected void saveItemLogic(NBTTagCompound aNBT) {
         NBTTagCompound nbtListInput = storage.saveToNBT();
-        nbt.setTag("gt.inventory.storage.inv", nbtListInput);
-        nbt.setInteger("gt.inventory.storage.size", this.storageSize);
+        aNBT.setTag("gt.inventory.storage.inv", nbtListInput);
+        aNBT.setInteger("gt.inventory.storage.size", this.storageSize);
     }
 
     @Override
-    public void readMultiTileNBT(NBTTagCompound nbt) {
-        super.readMultiTileNBT(nbt);
-        loadItemLogic(nbt);
+    public void readFromNBT(NBTTagCompound aNBT) {
+        super.readFromNBT(aNBT);
+        loadItemLogic(aNBT);
 
     }
 
-    protected void loadItemLogic(NBTTagCompound nbt) {
-        if (nbt.hasKey("gt.inventory.storage.size")) {
-            this.storageSize = nbt.getInteger("gt.inventory.storage.size");
+    protected void loadItemLogic(NBTTagCompound aNBT) {
+        if (aNBT.hasKey("gt.inventory.storage.size")) {
+            this.storageSize = aNBT.getInteger("gt.inventory.storage.size");
         }
         storage = new ItemInventoryLogic(this.storageSize);
 
-        if (nbt.hasKey("gt.inventory.storage.inv")) {
-            storage.loadFromNBT(nbt.getCompoundTag("gt.inventory.storage.inv"));
+        if (aNBT.hasKey("gt.inventory.storage.inv")) {
+            storage.loadFromNBT(aNBT.getCompoundTag("gt.inventory.storage.inv"));
         }
 
 
@@ -102,8 +97,8 @@ public abstract class MultiTileBasicStorage extends NonTickableMultiTileEntity i
 
     @Override
     public ItemStack getAsItem() {
-        return MultiTileEntityRegistry.getRegistry(getMultiTileEntityRegistryID())
-            .getItem(getMultiTileEntityID());
+        return MultiTileEntityRegistry.getRegistry(getRegistryId())
+            .getItem(getRegistryId());
     }
 
     public boolean hasItemInput() {
@@ -114,10 +109,10 @@ public abstract class MultiTileBasicStorage extends NonTickableMultiTileEntity i
         return true;
     }
 
-    @Override
-    public boolean hasGui(ForgeDirection side) {
-        return true;
-    }
+    //@Override
+    //public boolean hasGui(ForgeDirection side) {
+    //return true;
+    //}
 
     @Override
     public int getSizeInventory() {
@@ -171,8 +166,9 @@ public abstract class MultiTileBasicStorage extends NonTickableMultiTileEntity i
         //Slot Size 18px
         //Border sizes for player inventory 7px
         //Rendered Storage Inventory size will atleast be 1 slot heigh + border at max 6 slots height + border
-        return Math.max((18 * 4 + 3 * 7 + 18), (18 * 4 + 3 * 7 + (Math.max(1, Math.min(6,this.storageSize / this.default_cols))) * 18 + 4));
+        return Math.max((18 * 4 + 3 * 7 + 18), (18 * 4 + 3 * 7 + (Math.max(1, Math.min(6,this.storageSize / this.default_columns))) * 18 + 4));
     }
+
 
     @Override
     public ArrayList<ItemStack> getDrops(int aFortune, boolean aSilkTouch) {

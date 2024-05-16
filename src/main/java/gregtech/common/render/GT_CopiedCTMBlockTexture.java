@@ -38,7 +38,7 @@ class GT_CopiedCTMBlockTexture extends GT_TextureBase implements ITexture, IBloc
     }
 
     @Override
-    public void renderXPos(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ) {
+    public void renderXPos(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, int aBrightness, boolean aFullBlock) {
         final IIcon aIcon = getIcon(ForgeDirection.EAST.ordinal(), aX, aY, aZ, aRenderer);
         aRenderer.field_152631_f = true;
         startDrawingQuads(aRenderer, 1.0f, 0.0f, 0.0f);
@@ -50,7 +50,7 @@ class GT_CopiedCTMBlockTexture extends GT_TextureBase implements ITexture, IBloc
     }
 
     @Override
-    public void renderXNeg(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ) {
+    public void renderXNeg(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, int aBrightness, boolean aFullBlock) {
         startDrawingQuads(aRenderer, -1.0f, 0.0f, 0.0f);
         final IIcon aIcon = getIcon(ForgeDirection.WEST.ordinal(), aX, aY, aZ, aRenderer);
         new LightingHelper(aRenderer).setupLightingXNeg(aBlock, aX, aY, aZ)
@@ -60,7 +60,7 @@ class GT_CopiedCTMBlockTexture extends GT_TextureBase implements ITexture, IBloc
     }
 
     @Override
-    public void renderYPos(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ) {
+    public void renderYPos(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, int aBrightness, boolean aFullBlock) {
         startDrawingQuads(aRenderer, 0.0f, 1.0f, 0.0f);
         final IIcon aIcon = getIcon(ForgeDirection.UP.ordinal(), aX, aY, aZ, aRenderer);
         new LightingHelper(aRenderer).setupLightingYPos(aBlock, aX, aY, aZ)
@@ -70,7 +70,7 @@ class GT_CopiedCTMBlockTexture extends GT_TextureBase implements ITexture, IBloc
     }
 
     @Override
-    public void renderYNeg(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ) {
+    public void renderYNeg(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, int aBrightness, boolean aFullBlock) {
         startDrawingQuads(aRenderer, 0.0f, -1.0f, 0.0f);
         final IIcon aIcon = getIcon(ForgeDirection.DOWN.ordinal(), aX, aY, aZ, aRenderer);
         new LightingHelper(aRenderer).setupLightingYNeg(aBlock, aX, aY, aZ)
@@ -80,7 +80,7 @@ class GT_CopiedCTMBlockTexture extends GT_TextureBase implements ITexture, IBloc
     }
 
     @Override
-    public void renderZPos(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ) {
+    public void renderZPos(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, int aBrightness, boolean aFullBlock) {
         startDrawingQuads(aRenderer, 0.0f, 0.0f, 1.0f);
         final IIcon aIcon = getIcon(ForgeDirection.SOUTH.ordinal(), aX, aY, aZ, aRenderer);
         new LightingHelper(aRenderer).setupLightingZPos(aBlock, aX, aY, aZ)
@@ -90,7 +90,7 @@ class GT_CopiedCTMBlockTexture extends GT_TextureBase implements ITexture, IBloc
     }
 
     @Override
-    public void renderZNeg(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ) {
+    public void renderZNeg(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, int aBrightness, boolean aFullBlock) {
         startDrawingQuads(aRenderer, 0.0f, 0.0f, -1.0f);
         final IIcon aIcon = getIcon(ForgeDirection.NORTH.ordinal(), aX, aY, aZ, aRenderer);
         aRenderer.field_152631_f = true;

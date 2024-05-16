@@ -521,17 +521,17 @@ public abstract class MultiTileBasicMachine<P extends MuTEProcessingLogic<P>> ex
                     getProcessStartSound(),
                     getTimeBetweenProcessSounds(),
                     1.0F,
-                    getXCoord(),
-                    getYCoord(),
-                    getZCoord());
+                    getX(),
+                    getY(),
+                    getZ());
             }
             case INTERRUPT_SOUND_INDEX -> GT_Utility.doSoundAtClient(
                 SoundResource.IC2_MACHINES_INTERRUPT_ONE,
                 100,
                 1.0F,
-                getXCoord(),
-                getYCoord(),
-                getZCoord());
+                getX(),
+                getY(),
+                getZ());
         }
 
     }

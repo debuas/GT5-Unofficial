@@ -7,7 +7,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public interface IRenderedBlockSideCheck {
+public interface IRenderedBlockObjectSideCheck {
 
     /** returning false stops all the other Rendering from happening on that Side. */
     @SideOnly(Side.CLIENT)

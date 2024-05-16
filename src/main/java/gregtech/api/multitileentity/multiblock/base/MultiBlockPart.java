@@ -294,7 +294,7 @@ public abstract class MultiBlockPart extends NonTickableMultiTileEntity
     @Override
     public void onBlockPlaced() {
         for (final ForgeDirection side : ForgeDirection.VALID_DIRECTIONS) {
-            final TileEntity te = WorldHelper.getTileEntityAtSide(side, getWorldObj(), getXCoord(), getYCoord(), getZCoord());
+            final TileEntity te = WorldHelper.getTileEntityAtSide(side, getWorldObj(), getX(), getY(), getZ());
             if (te instanceof final MultiBlockPart part) {
                 final IMultiBlockController target = part.getTarget(false);
                 if (target != null) target.onStructureChange();

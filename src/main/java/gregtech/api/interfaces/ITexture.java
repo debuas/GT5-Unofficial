@@ -6,17 +6,17 @@ import net.minecraft.client.renderer.Tessellator;
 
 public interface ITexture {
 
-    void renderXPos(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ);
+    void renderXPos(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, int aBrightness, boolean aFullBlock);
 
-    void renderXNeg(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ);
+    void renderXNeg(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, int aBrightness, boolean aFullBlock);
 
-    void renderYPos(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ);
+    void renderYPos(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, int aBrightness, boolean aFullBlock);
 
-    void renderYNeg(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ);
+    void renderYNeg(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, int aBrightness, boolean aFullBlock);
 
-    void renderZPos(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ);
+    void renderZPos(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, int aBrightness, boolean aFullBlock);
 
-    void renderZNeg(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ);
+    void renderZNeg(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, int aBrightness, boolean aFullBlock);
 
     boolean isValidTexture();
 
@@ -29,7 +29,7 @@ public interface ITexture {
 
     /**
      * Will initialize the {@link Tessellator} if rendering off-world (Inventory)
-     * 
+     *
      * @param aRenderer The {@link RenderBlocks} Renderer
      * @param aNormalX  The X Normal for current Quad Face
      * @param aNormalY  The Y Normal for current Quad Face
@@ -44,7 +44,7 @@ public interface ITexture {
 
     /**
      * Will run the {@link Tessellator} to draw Quads if rendering off-world (Inventory)
-     * 
+     *
      * @param aRenderer The {@link RenderBlocks} Renderer
      */
     default void draw(RenderBlocks aRenderer) {

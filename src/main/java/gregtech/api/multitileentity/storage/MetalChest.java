@@ -50,7 +50,6 @@ public class MetalChest extends MultiTileBasicStorage implements IMTE_OnRegistra
     private int RGBa;
     public Materials material = Materials._NULL;
     public String mTextureName = "", mDungeonLootName = "";
-    public String chestType = "MetalChest";
 
     @Override
     public ItemStack getAsItem() {
@@ -72,8 +71,8 @@ public class MetalChest extends MultiTileBasicStorage implements IMTE_OnRegistra
         RENDERER.mResources.put(
             mTextureName,
             new ResourceLocation[] {
-                new ResourceLocation(GregTech.ID, "textures/model/metatileentity/" + chestType + "/metalchest.colored.png"),
-                new ResourceLocation(GregTech.ID, "textures/model/metatileentity/" + chestType + "/metalchest.plain.png") });
+                new ResourceLocation(GregTech.ID, "textures/model/multitileentity/" + mTextureName + "/" + mTextureName + ".colored.png"),
+                new ResourceLocation(GregTech.ID, "textures/model/multitileentity/" + mTextureName + "/" + mTextureName + ".plain.png") });
     }
 
     @Override
@@ -89,6 +88,7 @@ public class MetalChest extends MultiTileBasicStorage implements IMTE_OnRegistra
     @Override
     public void readFromNBT(NBTTagCompound aNBT) {
         super.readFromNBT(aNBT);
+        if (aNBT.hasKey(NBT.TEXTURE_FOLDER)) mTextureName = aNBT.getString(NBT.TEXTURE_FOLDER);
         if (aNBT.hasKey(NBT.MATERIAL)) material = Materials.get(aNBT.getString(NBT.MATERIAL));
         if (aNBT.hasKey(NBT.COLOR)) RGBa = aNBT.getInteger(NBT.COLOR);
     }
@@ -108,68 +108,18 @@ public class MetalChest extends MultiTileBasicStorage implements IMTE_OnRegistra
 
     // Textures
 
-    private ITexture baseTexture = null;
-    private ITexture topOverlayTexture = null;
-    private ITexture bottomOverlayTexture = null;
-    private ITexture leftOverlayTexture = null;
-    private ITexture rightOverlayTexture = null;
-    private ITexture backOverlayTexture = null;
-    private ITexture frontOverlayTexture = null;
-
     protected byte mFacing = 3, mUsingPlayers = 0, oUsingPlayers = 0;
     protected float mLidAngle = 0, oLidAngle = 0, mHardness = 6, mResistance = 3;
 
-    private static final byte[]              COMPASS_FROM_SIDE       = { 0, 0, 0, 2, 3, 1, 0, 0};
+    private static final byte[] COMPASS_FROM_SIDE = { 0, 0, 0, 2, 3, 1, 0, 0};
 
 
 
     @Override
-    public void loadTextures(String folder) {
-        // Loading the registry
-        for (SidedTextureNames textureName : SidedTextureNames.TEXTURES) {
-            ITexture texture;
-            try {
-                Minecraft.getMinecraft()
-                    .getResourceManager()
-                    .getResource(
-                        new ResourceLocation(
-                            Mods.GregTech.ID,
-                            "textures/blocks/multitileentity/" + folder + "/" + textureName.getName() + ".png"));
-                texture = TextureFactory.of(new Textures.BlockIcons.CustomIcon("multitileentity/" + folder + "/" + textureName.getName())
-                , this.material.getRGBA()
-                );
-            } catch (IOException ignored) {
-                texture = TextureFactory.of(Textures.BlockIcons.VOID);
-            }
-            switch (textureName) {
-                case Top -> this.topOverlayTexture = texture;
-                case Bottom -> this.bottomOverlayTexture = texture;
-                case Back -> this.backOverlayTexture = texture;
-                case Front -> this.frontOverlayTexture = texture;
-                case Left -> this.leftOverlayTexture = texture;
-                case Right -> this.rightOverlayTexture = texture;
-                case Base -> this.baseTexture = texture;
-            }
-        }
-
-    }
+    public void loadTextures(String folder) { /* Empty */ }
 
     @Override
-    public void copyTextures() {
-        // Loading an instance
-        final TileEntity tCanonicalTileEntity = MultiTileEntityRegistry.getCachedTileEntity(getRegistryId(), getMetaId());
-        if (!(tCanonicalTileEntity instanceof MetalChest)) {
-            return;
-        }
-        final MetalChest canonicalEntity = (MetalChest) tCanonicalTileEntity;
-        baseTexture = canonicalEntity.baseTexture;
-        topOverlayTexture = canonicalEntity.topOverlayTexture;
-        bottomOverlayTexture = canonicalEntity.bottomOverlayTexture;
-        leftOverlayTexture = canonicalEntity.leftOverlayTexture;
-        rightOverlayTexture = canonicalEntity.rightOverlayTexture;
-        backOverlayTexture = canonicalEntity.backOverlayTexture;
-        frontOverlayTexture = canonicalEntity.frontOverlayTexture;
-    }
+    public void copyTextures() { /* Empty */ }
 
     @SideOnly(Side.CLIENT)
     public static class MultiTileEntityRendererChest extends TileEntitySpecialRenderer {

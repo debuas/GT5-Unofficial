@@ -2,6 +2,7 @@ package gregtech.loaders.preload;
 
 import static gregtech.GT_Mod.GT_FML_LOGGER;
 import static gregtech.api.multitileentity.enums.GT_MultiTileCasing.*;
+import static gregtech.api.multitileentity.enums.GT_MultiTileChests.*;
 import static gregtech.api.multitileentity.enums.GT_MultiTileComponentCasing.*;
 import static gregtech.api.multitileentity.enums.GT_MultiTileUpgradeCasing.*;
 import static gregtech.api.multitileentity.enums.GT_MultiTileUpgradeCasing.Insulator_OmegaType;
@@ -1411,26 +1412,26 @@ public class GT_Loader_MultiTileEntities implements Runnable {
     // Storage registration for testing purposes
     // may change later
     private static void registerStorage() {
-        STORAGE_REGISTRY.create(1, MetalChest.class)
+        STORAGE_REGISTRY.create(Iron_Chest.getId(), MetalChest.class)
             .material(Materials.Iron)
             .textureFolder("MetalChest")
             .register();
-        STORAGE_REGISTRY.create(2, MetalChest.class)
+        STORAGE_REGISTRY.create(Gold_Chest.getId(), MetalChest.class)
             .material(Materials.Gold)
             .textureFolder("MetalChest")
             .setNBT("gt.inventory.storage.size", 54)
             .register();
-        STORAGE_REGISTRY.create(3, MetalChest.class)
+        STORAGE_REGISTRY.create(Platinum_Chest.getId(), MetalChest.class)
             .material(Materials.Platinum)
             .textureFolder("MetalChest")
             .setNBT("gt.inventory.storage.size", 69)
             .register();
-        STORAGE_REGISTRY.create(4, MetalChest.class)
+        STORAGE_REGISTRY.create(Lead_Chest.getId(), MetalChest.class)
             .material(Materials.Lead)
             .textureFolder("MetalChest")
             .setNBT("gt.inventory.storage.size", 9)
             .register();
-        STORAGE_REGISTRY.create(5, MetalChest.class)
+        STORAGE_REGISTRY.create(Granite_Chest.getId(), MetalChest.class)
             .material(Materials.GraniteRed)
             .textureFolder("MetalChest")
             .setNBT("gt.inventory.storage.size", 1)

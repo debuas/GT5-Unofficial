@@ -759,7 +759,7 @@ public class GT_Renderer_Block implements ISimpleBlockRenderingHandler {
         if (aIcon == null) return;
         for (final ITexture iTexture : aIcon) {
             if (iTexture != null) {
-                iTexture.renderYNeg(aRenderer, aBlock, aX, aY, aZ);
+                iTexture.renderYNeg(aRenderer, aBlock, aX, aY, aZ, 983055, aFullBlock);
             }
         }
     }
@@ -774,7 +774,7 @@ public class GT_Renderer_Block implements ISimpleBlockRenderingHandler {
         if (aIcon == null) return;
         for (final ITexture iTexture : aIcon) {
             if (iTexture != null) {
-                iTexture.renderYPos(aRenderer, aBlock, aX, aY, aZ);
+                iTexture.renderYPos(aRenderer, aBlock, aX, aY, aZ, 983055, aFullBlock);
             }
         }
     }
@@ -789,7 +789,7 @@ public class GT_Renderer_Block implements ISimpleBlockRenderingHandler {
         if (aIcon == null) return;
         for (final ITexture iTexture : aIcon) {
             if (iTexture != null) {
-                iTexture.renderZNeg(aRenderer, aBlock, aX, aY, aZ);
+                iTexture.renderZNeg(aRenderer, aBlock, aX, aY, aZ, 983055, aFullBlock);
             }
         }
     }
@@ -804,7 +804,7 @@ public class GT_Renderer_Block implements ISimpleBlockRenderingHandler {
         if (aIcon == null) return;
         for (final ITexture iTexture : aIcon) {
             if (iTexture != null) {
-                iTexture.renderZPos(aRenderer, aBlock, aX, aY, aZ);
+                iTexture.renderZPos(aRenderer, aBlock, aX, aY, aZ, 983055, aFullBlock);
             }
         }
     }
@@ -819,7 +819,7 @@ public class GT_Renderer_Block implements ISimpleBlockRenderingHandler {
         if (aIcon == null) return;
         for (final ITexture iTexture : aIcon) {
             if (iTexture != null) {
-                iTexture.renderXNeg(aRenderer, aBlock, aX, aY, aZ);
+                iTexture.renderXNeg(aRenderer, aBlock, aX, aY, aZ, 983055, aFullBlock);
             }
         }
     }
@@ -834,7 +834,7 @@ public class GT_Renderer_Block implements ISimpleBlockRenderingHandler {
         if (aIcon == null) return;
         for (final ITexture iTexture : aIcon) {
             if (iTexture != null) {
-                iTexture.renderXPos(aRenderer, aBlock, aX, aY, aZ);
+                iTexture.renderXPos(aRenderer, aBlock, aX, aY, aZ, 983055, aFullBlock);
             }
         }
     }

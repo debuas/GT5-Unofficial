@@ -50,7 +50,7 @@ public class GT_RenderedTexture extends GT_TextureBase implements ITexture, ICol
     }
 
     @Override
-    public void renderXPos(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ) {
+    public void renderXPos(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, int aBrightness, boolean aFullBlock) {
         startDrawingQuads(aRenderer, 1.0f, 0.0f, 0.0f);
         final boolean enableAO = aRenderer.enableAO;
         final LightingHelper lighting = new LightingHelper(aRenderer);
@@ -76,7 +76,7 @@ public class GT_RenderedTexture extends GT_TextureBase implements ITexture, ICol
     }
 
     @Override
-    public void renderXNeg(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ) {
+    public void renderXNeg(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, int aBrightness, boolean aFullBlock) {
         startDrawingQuads(aRenderer, -1.0f, 0.0f, 0.0f);
         final boolean enableAO = aRenderer.enableAO;
         final LightingHelper lighting = new LightingHelper(aRenderer);
@@ -102,7 +102,7 @@ public class GT_RenderedTexture extends GT_TextureBase implements ITexture, ICol
     }
 
     @Override
-    public void renderYPos(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ) {
+    public void renderYPos(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, int aBrightness, boolean aFullBlock) {
         startDrawingQuads(aRenderer, 0.0f, 1.0f, 0.0f);
         final boolean enableAO = aRenderer.enableAO;
         final LightingHelper lighting = new LightingHelper(aRenderer);
@@ -128,7 +128,7 @@ public class GT_RenderedTexture extends GT_TextureBase implements ITexture, ICol
     }
 
     @Override
-    public void renderYNeg(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ) {
+    public void renderYNeg(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, int aBrightness, boolean aFullBlock) {
         startDrawingQuads(aRenderer, 0.0f, -1.0f, 0.0f);
         final boolean enableAO = aRenderer.enableAO;
         final LightingHelper lighting = new LightingHelper(aRenderer);
@@ -154,7 +154,7 @@ public class GT_RenderedTexture extends GT_TextureBase implements ITexture, ICol
     }
 
     @Override
-    public void renderZPos(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ) {
+    public void renderZPos(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, int aBrightness, boolean aFullBlock) {
         startDrawingQuads(aRenderer, 0.0f, 0.0f, 1.0f);
         final boolean enableAO = aRenderer.enableAO;
         final LightingHelper lighting = new LightingHelper(aRenderer);
@@ -180,7 +180,7 @@ public class GT_RenderedTexture extends GT_TextureBase implements ITexture, ICol
     }
 
     @Override
-    public void renderZNeg(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ) {
+    public void renderZNeg(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, int aBrightness, boolean aFullBlock) {
         startDrawingQuads(aRenderer, 0.0f, 0.0f, -1.0f);
         final boolean enableAO = aRenderer.enableAO;
         final LightingHelper lighting = new LightingHelper(aRenderer);

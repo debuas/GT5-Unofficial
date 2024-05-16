@@ -33,7 +33,7 @@ public class GT_StdRenderedTexture extends GT_RenderedTexture {
     }
 
     @Override
-    public void renderYNeg(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ) {
+    public void renderYNeg(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, int aBrightness, boolean aFullBlock) {
         LightingHelper lighting = new LightingHelper(aRenderer);
         lighting.setupLightingYNeg(aBlock, aX, aY, aZ)
             .setupColor(ForgeDirection.DOWN, mRGBa);

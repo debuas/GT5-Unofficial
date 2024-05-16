@@ -34,33 +34,33 @@ public class GT_SidedTexture extends GT_TextureBase implements ITexture, IColorM
     }
 
     @Override
-    public void renderXPos(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ) {
-        mTextures[5].renderXPos(aRenderer, aBlock, aX, aY, aZ);
+    public void renderXPos(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, int aBrightness, boolean aFullBlock) {
+        mTextures[5].renderXPos(aRenderer, aBlock, aX, aY, aZ, aBrightness, aFullBlock);
     }
 
     @Override
-    public void renderXNeg(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ) {
-        mTextures[4].renderXNeg(aRenderer, aBlock, aX, aY, aZ);
+    public void renderXNeg(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, int aBrightness, boolean aFullBlock) {
+        mTextures[4].renderXNeg(aRenderer, aBlock, aX, aY, aZ, aBrightness, aFullBlock);
     }
 
     @Override
-    public void renderYPos(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ) {
-        mTextures[1].renderYPos(aRenderer, aBlock, aX, aY, aZ);
+    public void renderYPos(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, int aBrightness, boolean aFullBlock) {
+        mTextures[1].renderYPos(aRenderer, aBlock, aX, aY, aZ, aBrightness, aFullBlock);
     }
 
     @Override
-    public void renderYNeg(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ) {
-        mTextures[0].renderYNeg(aRenderer, aBlock, aX, aY, aZ);
+    public void renderYNeg(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, int aBrightness, boolean aFullBlock) {
+        mTextures[0].renderYNeg(aRenderer, aBlock, aX, aY, aZ, aBrightness, aFullBlock);
     }
 
     @Override
-    public void renderZPos(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ) {
-        mTextures[3].renderZPos(aRenderer, aBlock, aX, aY, aZ);
+    public void renderZPos(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, int aBrightness, boolean aFullBlock) {
+        mTextures[3].renderZPos(aRenderer, aBlock, aX, aY, aZ, aBrightness, aFullBlock);
     }
 
     @Override
-    public void renderZNeg(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ) {
-        mTextures[2].renderZNeg(aRenderer, aBlock, aX, aY, aZ);
+    public void renderZNeg(RenderBlocks aRenderer, Block aBlock, int aX, int aY, int aZ, int aBrightness, boolean aFullBlock) {
+        mTextures[2].renderZNeg(aRenderer, aBlock, aX, aY, aZ, aBrightness, aFullBlock);
     }
 
     @Override

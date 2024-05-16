@@ -50,7 +50,6 @@ public abstract class MultiTileBasicStorage extends TickableMultiTileEntity impl
     public void writeToNBT(NBTTagCompound aNBT) {
         super.writeToNBT(aNBT);
         saveItemLogic(aNBT);
-
     }
 
     protected void saveItemLogic(NBTTagCompound aNBT) {

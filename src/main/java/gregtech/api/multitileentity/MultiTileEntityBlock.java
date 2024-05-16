@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import cpw.mods.fml.common.registry.GameRegistry;
 import gregtech.api.GregTech_API;
 import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.IBlockOnWalkOver;
@@ -36,7 +35,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.IBlockAccess;
@@ -138,12 +136,19 @@ import static gregtech.api.util.GT_Util.LAST_BROKEN_TILEENTITY;
 @Optional.Interface(iface = "com.cricketcraft.chisel.api.IFacade", modid = "ChiselAPI")
 public class MultiTileEntityBlock extends BlockContainer implements IMultiBlock, IBlockOnWalkOver, IMultiBlockRetrievable, IFacade, IRenderedBlock {
     private static final Map<String, MultiTileEntityBlock> MULTITILEENTITYBLOCKMAP = new HashMap<>();
-    private final int mHarvestLevel, mHarvestLevelMinimum;
+    private int mHarvestLevel, mHarvestLevelMinimum, mHarvestLevelMaximum;
     private boolean mOpaque, mNormalCube;
 
 
     private String toolName;
     private MultiTileEntityRegistry registry;
+
+    public MultiTileEntityBlock setHarvestLevel(final int aHarvestLevel, final int aHarvestLevelMinimum, final int aHarvestLevelMaximum) {
+        this.mHarvestLevel = aHarvestLevel;
+        this.mHarvestLevelMinimum = aHarvestLevelMinimum;
+        this.mHarvestLevelMaximum = aHarvestLevelMaximum;
+        return this;
+    }
 
     public MultiTileEntityBlock setCubeOpacity(final boolean cubeOpacity) {
         this.mOpaque = cubeOpacity;
@@ -151,7 +156,7 @@ public class MultiTileEntityBlock extends BlockContainer implements IMultiBlock,
     }
 
     public MultiTileEntityBlock setNormalCube(final boolean aNormalCube) {
-        this.mNormalCube = mNormalCube;
+        this.mNormalCube = aNormalCube;
         return this;
     }
 
@@ -798,6 +803,7 @@ public class MultiTileEntityBlock extends BlockContainer implements IMultiBlock,
 
     @Override
     public final int getHarvestLevel(int aMeta) {
+        if (mHarvestLevel >= mHarvestLevelMaximum) return mHarvestLevelMaximum;
         return Math.max(mHarvestLevel + aMeta, mHarvestLevelMinimum);
     }
 

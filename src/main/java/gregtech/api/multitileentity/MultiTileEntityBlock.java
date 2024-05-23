@@ -137,28 +137,11 @@ import static gregtech.api.util.GT_Util.LAST_BROKEN_TILEENTITY;
 public class MultiTileEntityBlock extends BlockContainer implements IMultiBlock, IBlockOnWalkOver, IMultiBlockRetrievable, IFacade, IRenderedBlock {
     private static final Map<String, MultiTileEntityBlock> MULTITILEENTITYBLOCKMAP = new HashMap<>();
     private int mHarvestLevel, mHarvestLevelMinimum, mHarvestLevelMaximum;
-    private boolean mOpaque, mNormalCube;
-
+    private boolean mOpaque;
+    private boolean mNormalCube;
 
     private String toolName;
     private MultiTileEntityRegistry registry;
-
-    public MultiTileEntityBlock setHarvestLevel(final int aHarvestLevel, final int aHarvestLevelMinimum, final int aHarvestLevelMaximum) {
-        this.mHarvestLevel = aHarvestLevel;
-        this.mHarvestLevelMinimum = aHarvestLevelMinimum;
-        this.mHarvestLevelMaximum = aHarvestLevelMaximum;
-        return this;
-    }
-
-    public MultiTileEntityBlock setCubeOpacity(final boolean cubeOpacity) {
-        this.mOpaque = cubeOpacity;
-        return this;
-    }
-
-    public MultiTileEntityBlock setNormalCube(final boolean aNormalCube) {
-        this.mNormalCube = aNormalCube;
-        return this;
-    }
 
     public MultiTileEntityBlock setLightOpacity(final int lightOpacity) {
         this.lightOpacity = isOpaqueCube() ? 255 : 0;
@@ -847,6 +830,7 @@ public class MultiTileEntityBlock extends BlockContainer implements IMultiBlock,
     public ITexture[] getTexture(Block aBlock, ForgeDirection side, boolean isActive, int aRenderPass) {
         return null;
     }
+
     @Override
     public final boolean setBlockBounds(int aRenderPass, ItemStack aStack) {
         return false;

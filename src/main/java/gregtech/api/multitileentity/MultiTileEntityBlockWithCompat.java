@@ -24,7 +24,8 @@ import static gregtech.api.enums.ItemList.BOTA_Paintslinger;
     , @Optional.Interface(iface = "vazkii.botania.api.mana.IManaTrigger", modid = Mods.Names.BOTANIA)
 })
 @SuppressWarnings("deprecation")
-public class MultiTileEntityBlockWithCompat extends MultiTileEntityBlock implements IBlockSealable, IOxygenReliantBlock, IPaintableBlock, IManaTrigger {
+public abstract class MultiTileEntityBlockWithCompat extends MultiTileEntityBlock implements IBlockSealable, IOxygenReliantBlock, IPaintableBlock, IManaTrigger {
+    /*
     protected static MultiTileEntityBlock create(String aModID, String aNameOfVanillaMaterialField,
     Material aVanillaMaterial, SoundType aSoundType, String aTool, int aHarvestLevelOffset, int aHarvestLevelMinimum,
     int aHarvestLevelMaximum, boolean aOpaque, boolean aNormalCube) {
@@ -76,4 +77,5 @@ public class MultiTileEntityBlockWithCompat extends MultiTileEntityBlock impleme
         if (aTileEntity instanceof IMTE_OnPainting)
             ((IMTE_OnPainting)aTileEntity).onPainting(ForgeDirection.getOrientation(SIDE_UNKNOWN), (aMana.getColor() & 0x00ffffff));
     }
+     */
 }

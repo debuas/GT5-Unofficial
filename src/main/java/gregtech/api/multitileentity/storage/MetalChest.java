@@ -10,6 +10,8 @@ import gregtech.api.enums.Textures;
 import gregtech.api.interfaces.ITexture;
 import gregtech.api.multitileentity.MultiTileEntityRegistry;
 import gregtech.api.render.TextureFactory;
+import gregtech.api.multitileentity.interfaces.IMultiTileEntity.IMTE_IsProvidingWeakPower;
+import gregtech.api.multitileentity.interfaces.IMultiTileEntity.IMTE_IsProvidingStrongPower;
 import gregtech.api.multitileentity.interfaces.IMultiTileEntity.IMTE_OnRegistrationClient;
 import gregtech.api.multitileentity.interfaces.IMultiTileEntity.IMTE_OnRegistrationFirstClient;
 
@@ -23,11 +25,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 import gregtech.api.util.GT_Util;
+import gregtech.common.render.IRenderedBlockObject;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.RenderBlocks;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -36,6 +41,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
+import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
 
 
@@ -44,8 +50,9 @@ import net.minecraftforge.common.util.ForgeDirection;
 //TODO("Work on the chest open animation")
 //TODO("Play open/close sound for chest")
 
-public class MetalChest extends MultiTileBasicStorage implements IMTE_OnRegistrationFirstClient, IMTE_OnRegistrationClient {
+public class MetalChest extends MultiTileBasicStorage implements IMTE_IsProvidingWeakPower, IMTE_IsProvidingStrongPower, IMTE_OnRegistrationFirstClient, IMTE_OnRegistrationClient {
 
+    protected boolean mIsTrapped = false;
     private static final float minX = 0.0625F, minY = 0F, minZ = 0.0625F, maxX = 0.9375F, maxY = 0.875F, maxZ = 0.9375F;
     private int RGBa;
     public Materials material = Materials._NULL;
@@ -57,6 +64,61 @@ public class MetalChest extends MultiTileBasicStorage implements IMTE_OnRegistra
     }
 
 
+    @Override
+    public int isProvidingWeakPower  (ForgeDirection aOppositeSide) {return mIsTrapped && mUsingPlayers > 0 ? 15 : 0;}
+    @Override
+    public int isProvidingStrongPower(ForgeDirection aOppositeSide) {return mIsTrapped && mUsingPlayers > 0 ? 15 : 0;}
+
+    @Override
+    public AxisAlignedBB getCollisionBoundingBoxFromPool() {
+        return box(minX, minY, minZ, maxX, maxY, maxZ);
+    }
+
+    @Override
+    public AxisAlignedBB getSelectedBoundingBoxFromPool () {
+        return box(minX, minY, minZ, maxX, maxY, maxZ);
+    }
+
+    @Override
+    public void setBlockBoundsBasedOnState(Block aBlock) {
+        box(aBlock, minX, minY, minZ, maxX, maxY, maxZ);
+    }
+
+    @Override
+    public float getSurfaceSize(byte aSide) {
+        return 0.875F;
+    }
+
+    @Override
+    public float getSurfaceSizeAttachable(byte aSide) {
+        return 0.875F;
+    }
+
+    @Override
+    public float getSurfaceDistance(byte aSide) {
+        return aSide > 1 ? 0.0625F : aSide == 1 ? 0.125F : 0;
+    }
+
+    @Override
+    public boolean isSurfaceSolid(byte aSide) {
+        return false;
+    }
+
+    @Override
+    public boolean isSurfaceOpaque(byte aSide) {
+        return false;
+    }
+
+    @Override
+    public boolean renderItem(Block aBlock, RenderBlocks aRenderer) {
+        MetalChest.RENDERER.renderTileEntityAt(this, 0, 0, 0, 0);
+        return true;
+    }
+
+    @Override
+    public boolean renderBlock(Block aBlock, RenderBlocks aRenderer, IBlockAccess aWorld, int aX, int aY, int aZ) {
+        return true;
+    }
 
     @SideOnly(Side.CLIENT)
     private static MultiTileEntityRendererChest RENDERER;
@@ -64,6 +126,7 @@ public class MetalChest extends MultiTileBasicStorage implements IMTE_OnRegistra
     @Override
     public void onRegistrationFirstClient(MultiTileEntityRegistry registry, int id) {
         ClientRegistry.bindTileEntitySpecialRenderer(getClass(), RENDERER = new MultiTileEntityRendererChest());
+
     }
 
     @Override

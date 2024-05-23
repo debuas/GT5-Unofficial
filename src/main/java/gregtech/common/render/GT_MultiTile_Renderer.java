@@ -1,14 +1,10 @@
 package gregtech.common.render;
 
-import cpw.mods.fml.common.registry.GameRegistry;
-import gregtech.api.util.GT_Util;
-import gregtech.api.util.GT_Utility;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
@@ -25,13 +21,6 @@ import gregtech.api.multitileentity.MultiTileEntityBlock;
 import gregtech.api.multitileentity.MultiTileEntityRegistry;
 import gregtech.api.multitileentity.interfaces.IMultiBlockController;
 import gregtech.api.multitileentity.multiblock.base.MultiBlockPart;
-
-import static gregtech.api.enums.GT_Values.ALL_VALID_SIDES;
-import static gregtech.api.enums.GT_Values.OFFX;
-import static gregtech.api.enums.GT_Values.OFFY;
-import static gregtech.api.enums.GT_Values.OFFZ;
-import static gregtech.api.enums.GT_Values.SIDE_BOTTOM;
-import static gregtech.api.enums.GT_Values.SIDE_DOWN;
 
 public class GT_MultiTile_Renderer implements ISimpleBlockRenderingHandler {
 
@@ -76,17 +65,17 @@ public class GT_MultiTile_Renderer implements ISimpleBlockRenderingHandler {
             if (texture == null) continue;
             switch (side) {
                 case DOWN:
-                    renderYNegative(null, aRenderer, aBlock, 0, 0, 0, texture, !tNeedsToSetBounds, true);
+                    renderYNegative(null, aRenderer, aBlock, 0, 0, 0, texture, !tNeedsToSetBounds, true, aBlock);
                 case UP:
-                    renderYPositive(null, aRenderer, aBlock, 0, 0, 0, texture, !tNeedsToSetBounds, true);
+                    renderYPositive(null, aRenderer, aBlock, 0, 0, 0, texture, !tNeedsToSetBounds, true, aBlock);
                 case WEST:
-                    renderXNegative(null, aRenderer, aBlock, 0, 0, 0, texture, !tNeedsToSetBounds, true);
+                    renderXNegative(null, aRenderer, aBlock, 0, 0, 0, texture, !tNeedsToSetBounds, true, aBlock);
                 case EAST:
-                    renderXPositive(null, aRenderer, aBlock, 0, 0, 0, texture, !tNeedsToSetBounds, true);
+                    renderXPositive(null, aRenderer, aBlock, 0, 0, 0, texture, !tNeedsToSetBounds, true, aBlock);
                 case NORTH:
-                    renderZNegative(null, aRenderer, aBlock, 0, 0, 0, texture, !tNeedsToSetBounds, true);
+                    renderZNegative(null, aRenderer, aBlock, 0, 0, 0, texture, !tNeedsToSetBounds, true, aBlock);
                 case SOUTH:
-                    renderZPositive(null, aRenderer, aBlock, 0, 0, 0, texture, !tNeedsToSetBounds, true);
+                    renderZPositive(null, aRenderer, aBlock, 0, 0, 0, texture, !tNeedsToSetBounds, true, aBlock);
                 default: {
                     // Do nothing
                 }
@@ -143,17 +132,17 @@ public class GT_MultiTile_Renderer implements ISimpleBlockRenderingHandler {
             }
             switch (aSide) {
                 case DOWN:
-                    renderYNegative(aWorld, aRenderer, aBlock, aX, aY, aZ, aTexture, !tNeedsToSetBounds, true);
+                    renderYNegative(aWorld, aRenderer, aBlock, aX, aY, aZ, aTexture, !tNeedsToSetBounds, true, aBlock);
                 case UP:
-                    renderYPositive(aWorld, aRenderer, aBlock, aX, aY, aZ, aTexture, !tNeedsToSetBounds, true);
+                    renderYPositive(aWorld, aRenderer, aBlock, aX, aY, aZ, aTexture, !tNeedsToSetBounds, true, aBlock);
                 case WEST:
-                    renderXNegative(aWorld, aRenderer, aBlock, aX, aY, aZ, aTexture, !tNeedsToSetBounds, true);
+                    renderXNegative(aWorld, aRenderer, aBlock, aX, aY, aZ, aTexture, !tNeedsToSetBounds, true, aBlock);
                 case EAST:
-                    renderXPositive(aWorld, aRenderer, aBlock, aX, aY, aZ, aTexture, !tNeedsToSetBounds, true);
+                    renderXPositive(aWorld, aRenderer, aBlock, aX, aY, aZ, aTexture, !tNeedsToSetBounds, true, aBlock);
                 case NORTH:
-                    renderZNegative(aWorld, aRenderer, aBlock, aX, aY, aZ, aTexture, !tNeedsToSetBounds, true);
+                    renderZNegative(aWorld, aRenderer, aBlock, aX, aY, aZ, aTexture, !tNeedsToSetBounds, true, aBlock);
                 case SOUTH:
-                    renderZPositive(aWorld, aRenderer, aBlock, aX, aY, aZ, aTexture, !tNeedsToSetBounds, true);
+                    renderZPositive(aWorld, aRenderer, aBlock, aX, aY, aZ, aTexture, !tNeedsToSetBounds, true, aBlock);
                 default: {
                     // Do nothing
                 }
@@ -176,7 +165,7 @@ public class GT_MultiTile_Renderer implements ISimpleBlockRenderingHandler {
     }
 
     private static void renderYNegative(IBlockAccess world, RenderBlocks aRenderer, Block aBlock, int x, int y, int z,
-        ITexture texture, boolean aFullBlock, boolean aShouldSideBeRendered) {
+        ITexture texture, boolean aFullBlock, boolean aShouldSideBeRendered, Object aRenderedBlockObject) {
         if (texture == null || !texture.isValidTexture()) return;
         int aBrightness = 240;
         if (world != null) {
@@ -193,7 +182,7 @@ public class GT_MultiTile_Renderer implements ISimpleBlockRenderingHandler {
     }
 
     private static void renderYPositive(IBlockAccess world, RenderBlocks aRenderer, Block aBlock, int x, int y, int z,
-        ITexture texture, boolean aFullBlock, boolean aShouldSideBeRendered) {
+        ITexture texture, boolean aFullBlock, boolean aShouldSideBeRendered, Object aRenderedBlockObject) {
         if (texture == null || !texture.isValidTexture()) return;
         int aBrightness = 240;
         if (world != null) {
@@ -210,7 +199,7 @@ public class GT_MultiTile_Renderer implements ISimpleBlockRenderingHandler {
     }
 
     private static void renderZNegative(IBlockAccess aWorld, RenderBlocks aRenderer, Block aBlock, int x, int y, int z,
-        ITexture aTexture, boolean aFullBlock, boolean aShouldSideBeRendered) {
+        ITexture aTexture, boolean aFullBlock, boolean aShouldSideBeRendered, Object aRenderedBlockObject) {
         if (aTexture == null || !aTexture.isValidTexture()) return;
         int aBrightness = 240;
         if (aWorld != null) {
@@ -228,7 +217,7 @@ public class GT_MultiTile_Renderer implements ISimpleBlockRenderingHandler {
     }
 
     private static void renderZPositive(IBlockAccess aWorld, RenderBlocks aRenderer, Block aBlock, int x, int y, int z,
-        ITexture aTexture, boolean aFullBlock, boolean aShouldSideBeRendered) {
+        ITexture aTexture, boolean aFullBlock, boolean aShouldSideBeRendered, Object aRenderedBlockObject) {
         if (aTexture == null || !aTexture.isValidTexture()) return;
         int aBrightness = 240;
         if (aWorld != null) {
@@ -245,7 +234,7 @@ public class GT_MultiTile_Renderer implements ISimpleBlockRenderingHandler {
     }
 
     private static void renderXNegative(IBlockAccess aWorld, RenderBlocks aRenderer, Block aBlock, int x, int y, int z,
-        ITexture aTexture, boolean aFullBlock, boolean aShouldSideBeRendered) {
+        ITexture aTexture, boolean aFullBlock, boolean aShouldSideBeRendered, Object aRenderedBlockObject) {
         if (aTexture == null || !aTexture.isValidTexture()) return;
         int aBrightness = 240;
         if (aWorld != null) {
@@ -264,7 +253,7 @@ public class GT_MultiTile_Renderer implements ISimpleBlockRenderingHandler {
 
 
     private static void renderXPositive(IBlockAccess aWorld, RenderBlocks aRenderer, Block aBlock, int x, int y, int z,
-        ITexture aTexture, boolean aFullBlock, boolean aShouldSideBeRendered) {
+        ITexture aTexture, boolean aFullBlock, boolean aShouldSideBeRendered, Object aRenderedBlockObject) {
         if (aTexture == null || !aTexture.isValidTexture()) return;
         int aBrightness = 240;
         if (aWorld != null) {
